@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="The Studio">
+<title>The Studio — Words That Deliver</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF0000;--pu:#40003F;--pl:#f5eef5;--pm:#d4b8d4;--gd:#C9A84C;--gl:#fdf8ed;--ow:#fafafa;--grl:#f4f4f4;--gr:#e0e0e0;--tx:#1a1a1a;--tm:#555;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow:hidden;height:100vh;display:flex;flex-direction:column;}
+#d5b{height:50px;background:var(--pu);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;overflow-x:auto;}
+.d5l{font-family:'Cormorant Garamond',serif;font-weight:700;color:white;font-size:13px;white-space:nowrap;flex-shrink:0;letter-spacing:1px;}
+.d5l span{color:var(--gd);}
+.d5s{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:4px 12px;white-space:nowrap;font-size:12px;color:white;cursor:pointer;flex-shrink:0;}
+.d5s.dn{text-decoration:line-through;opacity:.4;}
+#d5b button{margin-left:auto;flex-shrink:0;background:var(--gd);color:var(--pu);border:none;padding:5px 14px;border-radius:20px;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;font-weight:600;}
+#wrap{display:flex;flex:1;overflow:hidden;}
+#sb{width:220px;background:#1a001a;display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
+.sbl{padding:13px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px;}
+.sbl img{height:25px;filter:brightness(0) invert(1);opacity:.9;}
+.sbl button{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);padding:3px 7px;border-radius:8px;cursor:pointer;font-size:10px;}
+.sbl button:hover{border-color:var(--gd);color:var(--gd);}
+.ss{padding:11px 13px 3px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.22);}
+.n{display:flex;align-items:center;gap:9px;padding:9px 13px;cursor:pointer;color:rgba(255,255,255,.62);font-size:12.5px;border-left:3px solid transparent;transition:all .15s;}
+.n:hover{background:rgba(255,255,255,.07);color:white;}
+.n.on{background:rgba(255,255,255,.1);color:white;border-left-color:var(--gd);}
+.ni{font-size:13px;width:18px;text-align:center;flex-shrink:0;}
+.sbf{margin-top:auto;padding:13px;color:rgba(255,255,255,.25);font-size:10px;font-family:'Cormorant Garamond',serif;font-style:italic;line-height:1.6;border-top:1px solid rgba(255,255,255,.07);}
+#ct{flex:1;overflow-y:auto;}
+.rm{display:none;min-height:100%;}
+.rm.on{display:block;}
+.rh{padding:26px 32px 22px;color:white;}
+.rh.pu{background:linear-gradient(135deg,#40003F,#6a006a);}
+.rh.re{background:linear-gradient(135deg,#cc0000,#FF0000);}
+.rh.gd{background:linear-gradient(135deg,#7a5c00,#C9A84C);}
+.rh.dk{background:linear-gradient(135deg,#0d0018,#2a0040);}
+.rh.pr{background:linear-gradient(135deg,#1a0030,#3d0070);}
+.rh.nv{background:linear-gradient(135deg,#0a0a2e,#1a1a5e);}
+.rh.ch{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);}
+.rh.gn{background:linear-gradient(135deg,#1a3a1a,#2d5a2d);}
+.rh.lt{background:linear-gradient(135deg,#f0eaf5,#e4d8ee);border-bottom:1px solid var(--gr);}
+.ew{font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.5;margin-bottom:6px;}
+.rh h1{font-family:'Cormorant Garamond',serif;font-size:31px;font-weight:600;line-height:1.1;}
+.rh p{margin-top:7px;opacity:.75;font-size:14px;max-width:540px;line-height:1.6;}
+.rb{padding:24px 32px;}
+.cd{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:16px;}
+.cd h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--pu);margin-bottom:8px;}
+.cd p{color:var(--tm);line-height:1.7;font-size:14px;}
+.clb{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:5px;font-weight:600;}
+.btn{padding:8px 20px;border-radius:22px;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;border:none;}
+.bpu{background:var(--pu);color:white;}.bpu:hover{background:#6a006a;}
+.bre{background:var(--red);color:white;}.bre:hover{background:#cc0000;}
+.bgd{background:var(--gd);color:white;}.bgd:hover{background:#a88230;}
+.bol{background:white;color:var(--pu);border:2px solid var(--pu)!important;}.bol:hover{background:var(--pl);}
+.bsm{padding:4px 12px;font-size:11px;}
+.fg{margin-bottom:13px;}
+.fl{display:block;font-size:10px;font-weight:600;color:var(--pu);margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;}
+.fi,.ft,.fss{width:100%;padding:8px 12px;border:2px solid var(--gr);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;outline:none;transition:border-color .2s;background:white;}
+.fi:focus,.ft:focus,.fss:focus{border-color:var(--pu);}
+.ft{resize:vertical;min-height:80px;}
+.cw{display:flex;flex-direction:column;}
+.cm{overflow-y:auto;padding:13px;background:var(--grl);border-radius:10px;margin-bottom:10px;min-height:240px;max-height:360px;}
+.ms{margin-bottom:12px;}
+.ms.us{text-align:right;}
+.bbl{display:inline-block;max-width:82%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.65;}
+.us .bbl{background:var(--pu);color:white;border-bottom-right-radius:4px;}
+.as .bbl{background:white;color:var(--tx);border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.cr{display:flex;gap:8px;}
+.cr input{flex:1;padding:9px 13px;border:2px solid var(--gr);border-radius:22px;font-family:'Jost',sans-serif;font-size:14px;outline:none;}
+.cr input:focus{border-color:var(--pu);}
+.cr button{background:var(--pu);color:white;border:none;padding:9px 17px;border-radius:22px;cursor:pointer;font-family:'Jost',sans-serif;font-size:14px;}
+.cr button:hover{background:var(--red);}
+.dt{display:inline-flex;gap:3px;}
+.dt span{width:5px;height:5px;border-radius:50%;background:var(--pm);animation:bp 1.2s infinite;}
+.dt span:nth-child(2){animation-delay:.2s;}
+.dt span:nth-child(3){animation-delay:.4s;}
+@keyframes bp{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;}
+.ov.op{display:flex;}
+.mo{background:white;border-radius:16px;padding:24px;max-width:500px;width:92%;max-height:88vh;overflow-y:auto;}
+.mo h2{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--pu);margin-bottom:4px;}
+.msub{color:var(--tm);font-size:13px;margin-bottom:16px;}
+.mft{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+.pl{display:inline-block;padding:4px 11px;border-radius:14px;font-size:12px;cursor:pointer;border:1.5px solid transparent;margin:2px;}
+.plpu{background:var(--pl);color:var(--pu);border-color:var(--pm);}.plpu:hover,.plpu.on{background:var(--pu);color:white;}
+.plgd{background:var(--gl);color:#8B6914;border-color:#e8d090;}.plgd:hover,.plgd.on{background:var(--gd);color:white;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+/* PRAYER */
+.pb{background:linear-gradient(160deg,#1a0030,#2a0050);min-height:100%;padding:28px 32px;}
+.pv{text-align:center;margin-bottom:22px;}
+.pvr{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;}
+.pvt{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(255,255,255,.8);max-width:560px;margin:0 auto;line-height:1.6;}
+.pag{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+.pa{border:2px solid rgba(255,255,255,.14);border-radius:12px;padding:17px 13px;text-align:center;cursor:pointer;color:white;transition:all .2s;}
+.pa:hover,.pa.on{border-color:var(--gd);background:rgba(255,255,255,.06);}
+.pai{font-size:25px;margin-bottom:8px;}
+.pan{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;margin-bottom:2px;}
+.pat{font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.38;margin-bottom:7px;}
+.pad{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;opacity:.6;line-height:1.5;}
+.pch{max-width:660px;margin:0 auto;}
+.pw{text-align:center;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:11px;}
+.pm{background:rgba(255,255,255,.05);border-radius:12px;padding:13px;min-height:180px;max-height:300px;overflow-y:auto;margin-bottom:10px;}
+.pmg{margin-bottom:11px;}
+.pmg.us{text-align:right;}
+.pbb{display:inline-block;max-width:82%;padding:10px 15px;border-radius:16px;font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.6;}
+.pmg.us .pbb{background:rgba(255,255,255,.14);color:white;border-bottom-right-radius:4px;}
+.pmg.as .pbb{background:rgba(255,255,255,.9);color:var(--pu);border-bottom-left-radius:4px;}
+.pir{display:flex;gap:8px;}
+.pi{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:10px 14px;border-radius:22px;font-family:'Jost',sans-serif;font-size:14px;outline:none;}
+.pi::placeholder{color:rgba(255,255,255,.38);}
+.pi:focus{border-color:var(--gd);}
+.ps{background:var(--gd);color:#1a0030;border:none;padding:10px 20px;border-radius:22px;cursor:pointer;font-family:'Jost',sans-serif;font-size:14px;font-weight:600;}
+.ps:hover{background:white;}
+/* ENTRANCE */
+.eq{background:var(--pu);color:white;border-radius:12px;padding:19px 23px;margin-bottom:16px;}
+.eql{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.45;margin-bottom:6px;}
+.eqt{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;line-height:1.5;}
+.ew2{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.wc{flex:1;min-width:145px;background:white;border-top:3px solid var(--red);border-radius:8px;padding:12px 14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.wcf{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:3px;}
+.wct{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--pu);font-style:italic;line-height:1.5;}
+.ed{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px;}
+.edc{background:white;border-radius:10px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.edl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tm);margin-bottom:6px;}
+.ws{display:flex;justify-content:space-between;margin-top:5px;}
+.wd{text-align:center;flex:1;}
+.wdn{font-size:9px;color:var(--tm);}
+.wdm{font-size:14px;font-weight:600;color:var(--pu);margin:3px 0;}
+.wdd{width:4px;height:4px;border-radius:50%;background:var(--gr);margin:0 auto;}
+.wd.td .wdm{background:var(--pu);color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;margin:3px auto;}
+.wd.td .wdd{background:var(--red);}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.qab{background:white;border:2px solid var(--gr);border-radius:10px;padding:12px 7px;text-align:center;cursor:pointer;}
+.qab:hover{border-color:var(--pu);background:var(--pl);}
+.qai{font-size:19px;margin-bottom:4px;}
+.qal{font-size:10px;color:var(--pu);font-weight:500;}
+/* VAULT */
+.vg{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.vc{background:white;border-radius:10px;padding:15px;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.vct{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--pu);margin-bottom:7px;font-weight:600;}
+.vcc{font-size:13px;line-height:1.7;}
+.vcc strong{color:var(--pu);}
+.bw{display:inline-block;background:#fff0f0;color:var(--red);border-radius:4px;padding:1px 5px;margin:2px;font-size:11px;}
+/* AGENTS */
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px;}
+.ac{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;}
+.ac:hover{transform:translateY(-2px);}
+.ach{padding:15px;background:var(--pu);color:white;}
+.ach .ae{font-size:23px;margin-bottom:5px;}
+.ach h3{font-family:'Cormorant Garamond',serif;font-size:17px;}
+.ach .ar{font-size:10px;opacity:.55;margin-top:2px;}
+.acb{padding:12px 15px 15px;}
+.acb p{font-size:12px;color:var(--tm);line-height:1.6;margin-bottom:9px;}
+.acb button{width:100%;background:var(--pu);color:white;border:none;padding:6px;border-radius:18px;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;}
+.acb button:hover{background:var(--red);}
+/* CONTENT */
+.pf{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px;}
+.ci2{background:white;border-radius:10px;padding:13px 15px;margin-bottom:8px;box-shadow:0 1px 5px rgba(0,0,0,.05);border-left:4px solid var(--pu);}
+.cip{display:inline-block;background:var(--pl);color:var(--pu);border-radius:7px;padding:2px 6px;font-size:10px;margin-bottom:5px;}
+.citx{font-size:13px;line-height:1.6;margin-bottom:7px;}
+.cist{display:inline-block;padding:2px 6px;border-radius:7px;font-size:10px;margin-left:5px;}
+.sr{background:#e8f5e9;color:#2e7d32;}.ss2{background:#fff8e1;color:#f57f17;}.sp{background:#e3f2fd;color:#1565c0;}
+/* PITCH */
+.pif{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:16px;}
+.pir2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px;}
+.pio{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.pio h4{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--pu);margin-bottom:9px;}
+/* WIN */
+.wp{background:var(--gl);border:2px solid var(--gd);border-radius:10px;padding:10px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:9px;}
+.wpi{font-size:17px;flex-shrink:0;}
+.wpt2{flex:1;}
+.wpw{font-size:13px;font-weight:500;color:var(--pu);}
+.wpd{font-size:10px;color:var(--tm);margin-top:2px;}
+/* SEQ */
+.sq{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;background:white;border-radius:10px;padding:11px;box-shadow:0 1px 5px rgba(0,0,0,.05);}
+.sqn{width:27px;height:27px;border-radius:50%;background:var(--pu);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+.sqb{flex:1;}
+.sqt{font-size:13px;font-weight:500;color:var(--pu);}
+.sqw{font-size:12px;color:var(--tm);margin-top:2px;}
+.sqtm{font-size:10px;color:var(--gd);margin-top:2px;font-weight:500;}
+.sqc{width:2px;background:var(--pm);height:12px;margin:0 0 0 12px;}
+/* SPARK */
+.spr{display:flex;align-items:flex-start;gap:9px;background:white;border-radius:10px;padding:11px 13px;margin-bottom:7px;box-shadow:0 1px 5px rgba(0,0,0,.05);}
+.spc{font-size:10px;background:var(--pl);color:var(--pu);padding:2px 6px;border-radius:7px;margin-bottom:3px;display:inline-block;}
+.spt{flex:1;font-size:13px;line-height:1.55;}
+.spbs{display:flex;gap:4px;flex-shrink:0;}
+.spb{background:var(--pl);color:var(--pu);border:none;padding:3px 8px;border-radius:9px;font-size:11px;cursor:pointer;}
+.spb:hover{background:var(--pu);color:white;}
+/* SWING */
+.swr{display:flex;align-items:center;gap:9px;background:white;border-radius:10px;padding:10px 12px;margin-bottom:7px;box-shadow:0 1px 5px rgba(0,0,0,.05);}
+.swn{width:27px;height:27px;border-radius:50%;background:var(--pu);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+.swi{flex:1;border:none;background:transparent;font-family:'Jost',sans-serif;font-size:14px;outline:none;}
+.swdb{cursor:pointer;font-size:16px;color:var(--gr);}
+.swdb.dn{color:var(--pu);}
+.swdl{cursor:pointer;font-size:12px;color:var(--gr);margin-left:3px;}
+.swdl:hover{color:var(--red);}
+/* LIST */
+.lr{display:flex;align-items:center;gap:7px;padding:7px 10px;background:white;border-radius:7px;margin-bottom:5px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.lr span{flex:1;font-size:13px;}
+.ld{cursor:pointer;color:var(--gr);font-size:12px;}
+.ld:hover{color:var(--red);}
+/* DREAM */
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px;}
+.dc{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;}
+.dc:hover{transform:translateY(-2px);}
+.di{height:135px;background:var(--pl);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.di img{width:100%;height:100%;object-fit:cover;}
+.dcb{padding:11px;}
+.dcb h4{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--pu);margin-bottom:3px;}
+.dcb p{font-size:11px;color:var(--tm);}
+.ab{display:inline-block;background:var(--gd);color:white;font-size:10px;padding:2px 6px;border-radius:7px;margin-top:4px;}
+.str{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--grl);}
+.stc{width:23px;height:23px;border-radius:50%;background:var(--pl);color:var(--pu);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
+.stc.dn{background:var(--pu);color:white;}
+.az{background:var(--gl);border:2px solid var(--gd);border-radius:12px;padding:17px;margin-top:17px;}
+.az.lk{opacity:.4;pointer-events:none;}
+.az h4{font-family:'Cormorant Garamond',serif;font-size:17px;color:#8B6914;margin-bottom:7px;}
+/* SOUND */
+.snr{display:flex;align-items:center;gap:10px;background:white;border-radius:10px;padding:11px 13px;margin-bottom:7px;box-shadow:0 1px 5px rgba(0,0,0,.05);}
+.sni{font-size:19px;}
+.snn{font-weight:500;font-size:13px;}
+.snl{font-size:11px;color:var(--pu);text-decoration:none;}
+.snl:hover{color:var(--red);}
+/* VOX */
+.vr{background:white;border-radius:10px;padding:13px 15px;margin-bottom:8px;box-shadow:0 1px 5px rgba(0,0,0,.05);border-left:4px solid var(--pu);}
+.vt{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--pu);margin-bottom:4px;}
+.vco{font-size:12px;color:var(--tm);line-height:1.6;margin-bottom:7px;}
+.vm{font-size:10px;color:#aaa;}
+.va{display:flex;gap:5px;margin-top:7px;}
+/* THREAD */
+.tb{min-height:240px;background:var(--grl);border-radius:12px;padding:16px;}
+.tn{display:inline-block;background:white;border:2px solid var(--red);border-radius:8px;padding:6px 11px;margin:4px;font-size:12px;cursor:pointer;}
+.tn:hover{background:#fff0f0;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--pm);border-radius:3px;}
+@media(max-width:768px){
+#sb{width:52px;}
+.n span:not(.ni),.ss,.sbf{display:none;}
+.n{justify-content:center;padding:11px;}
+.sbl img+*,.sbl button{display:none;}
+.rb{padding:15px 12px;}
+.rh{padding:19px 15px;}
+.vg,.g2,.pag,.ed,.pir2{grid-template-columns:1fr;}
+.qa{grid-template-columns:repeat(2,1fr);}
+.ew2{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div id="d5b">
+  <div class="d5l">DAILY <span>5</span></div>
+  <div id="d5pv"><span style="font-size:12px;color:rgba(255,255,255,.38);font-style:italic;">Set your intention. Swing with purpose.</span></div>
+  <button onclick="go('daily5')">Set Daily 5</button>
+</div>
+<div id="wrap">
+<nav id="sb">
+  <div class="sbl"><img id="logo" src="" alt="WTD"><button onclick="openApi()">⚙</button></div>
+  <div class="ss">Home</div>
+  <div class="n on" onclick="go('prayer')"><span class="ni">🙏</span><span>Prayer Room</span></div>
+  <div class="n" onclick="go('entrance')"><span class="ni">🏛</span><span>The Entrance</span></div>
+  <div class="ss">Plan</div>
+  <div class="n" onclick="go('daily5')"><span class="ni">🪓</span><span>Daily 5</span></div>
+  <div class="n" onclick="go('vision')"><span class="ni">✨</span><span>Vision Room</span></div>
+  <div class="n" onclick="go('sequencer')"><span class="ni">🔀</span><span>The Sequencer</span></div>
+  <div class="n" onclick="go('winmap')"><span class="ni">🏆</span><span>WIN Map</span></div>
+  <div class="ss">Intelligence</div>
+  <div class="n" onclick="go('iris')"><span class="ni">🔮</span><span>Iris</span></div>
+  <div class="ss">Create</div>
+  <div class="n" onclick="go('team')"><span class="ni">👥</span><span>Team Room</span></div>
+  <div class="n" onclick="go('spark')"><span class="ni">⚡</span><span>Spark Room</span></div>
+  <div class="n" onclick="go('vox')"><span class="ni">🎙</span><span>Vox</span></div>
+  <div class="n" onclick="go('content')"><span class="ni">✍️</span><span>Content Room</span></div>
+  <div class="n" onclick="go('redthread')"><span class="ni">🧵</span><span>Red Thread</span></div>
+  <div class="n" onclick="go('campaign')"><span class="ni">📡</span><span>Campaign Room</span></div>
+  <div class="ss">Pitch</div>
+  <div class="n" onclick="go('pitch')"><span class="ni">🎤</span><span>Pitch Room</span></div>
+  <div class="ss">Space</div>
+  <div class="n" onclick="go('c')"><span class="ni">○</span><span>C</span></div>
+  <div class="n" onclick="go('shina')"><span class="ni">🌟</span><span>Shina</span></div>
+  <div class="n" onclick="go('sound')"><span class="ni">🎵</span><span>Sound Room</span></div>
+  <div class="n" onclick="go('calendar')"><span class="ni">📅</span><span>Calendar</span></div>
+  <div class="ss">Assets</div>
+  <div class="n" onclick="go('brandvault')"><span class="ni">🔒</span><span>Brand Vault</span></div>
+  <div class="n" onclick="go('workshop')"><span class="ni">🔧</span><span>Workshop</span></div>
+  <div class="sbf">"Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."<br><br>Matthew 5:16</div>
+</nav>
+<div id="ct">
+<!-- PRAYER ROOM -->
+<div id="rm-prayer" class="rm on">
+<div class="pb">
+<div class="pv"><div class="pvr">Jeremiah 33:3 (NKJV)</div><div class="pvt">"Call to Me, and I will answer you, and show you great and mighty things, which you do not know."</div></div>
+<div style="text-align:center;margin-bottom:20px;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:white;font-weight:600;">Business Meeting with God</div><div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px;">Words That Deliver — The COO Suite</div></div>
+<div class="pag">
+<div class="pa on" id="pa-g" onclick="selP('g')"><div class="pai">✦</div><div class="pan">Papa G</div><div class="pat">God The Father — COO</div><div class="pad">The vision holder. He sees the end from the beginning.</div></div>
+<div class="pa" id="pa-jc" onclick="selP('jc')"><div class="pai" style="font-size:19px;">✝</div><div class="pan">JC</div><div class="pat">Jesus Christ — The Way</div><div class="pad">The way-maker. He has walked it and knows the path.</div></div>
+<div class="pa" id="pa-h" onclick="selP('h')"><div class="pai">△</div><div class="pan">H</div><div class="pat">Holy Spirit — The Prompt</div><div class="pad">The still small voice. The one who searches all things.</div></div>
+</div>
+<div class="pch"><div class="pw" id="pw">Speaking with Papa G</div>
+<div class="pm" id="pm"><div class="pmg as"><div class="pbb">The room is ready. Who do you want to meet with today?</div></div></div>
+<div class="pir"><input class="pi" id="pi" placeholder="Speak what is on your heart..." onkeydown="if(event.key==='Enter')sndP()"><button class="ps" id="psb" onclick="sndP()">Send</button></div>
+</div></div></div>
+
+<!-- ENTRANCE -->
+<div id="rm-entrance" class="rm">
+<div class="rh pu"><div class="ew">The Studio</div><h1>Good to have you in The Studio.</h1><p>Words That Deliver — The Personal Brand Strategy Studio</p></div>
+<div class="rb">
+<div class="eq"><div class="eql">A Message From Mum</div><div class="eqt">"You can only get what you take from the world — nobody will give you so you go on and get."</div></div>
+<div class="ew2">
+<div class="wc"><div class="wcf">For Mum</div><div class="wct">I want to live life to the full in honour of your love for me.</div></div>
+<div class="wc"><div class="wcf">For Papa G</div><div class="wct">I want to glorify your name and make you proud.</div></div>
+<div class="wc"><div class="wcf">For every woman</div><div class="wct">I want to show you it is possible to boldly say I Am HER. I Am HER&#8226;E.</div></div>
+</div>
+<div class="ed">
+<div class="edc"><div class="edl"><span style="color:var(--red);">&#9679;</span> Outstanding</div><div id="outst" style="font-size:13px;color:var(--tm);font-style:italic;">Nothing outstanding. You are ahead of it.</div></div>
+<div class="edc"><div class="edl">&#128197; Coming This Week</div><div class="ws" id="wstrip"></div></div>
+</div>
+<div class="qa">
+<div class="qab" onclick="go('spark')"><div class="qai">&#9889;</div><div class="qal">New Spark</div></div>
+<div class="qab" onclick="go('team')"><div class="qai">&#128101;</div><div class="qal">Brief the Team</div></div>
+<div class="qab" onclick="go('campaign')"><div class="qai">&#128225;</div><div class="qal">Campaign Room</div></div>
+<div class="qab" onclick="go('workshop')"><div class="qai">&#128295;</div><div class="qal">The Workshop</div></div>
+</div></div></div>
+
+<!-- DAILY 5 -->
+<div id="rm-daily5" class="rm">
+<div class="rh re"><div class="ew">Daily 5</div><h1>Set your intention. Swing with purpose.</h1><p>Five deliberate choices. Set tonight. Ready tomorrow.</p></div>
+<div class="rb">
+<div class="cd"><h3>Your Running List</h3><p style="margin-bottom:11px;">Capture everything in play. No order, no pressure.</p>
+<div style="display:flex;gap:8px;margin-bottom:11px;"><input type="text" class="fi" id="li" placeholder="Add something..." style="flex:1;" onkeydown="if(event.key==='Enter')addLI()"><button class="btn bpu" onclick="addLI()">Add</button></div>
+<div id="sli"></div></div>
+<div class="cd">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;"><h3 style="margin:0;">Tomorrow's Five Swings</h3><button class="btn bre bsm" onclick="sugSw()">&#10022; Suggest</button></div>
+<div id="swli"></div>
+<button class="btn bol bsm" onclick="addSw()" style="margin-top:5px;">+ Add swing</button>
+<div style="margin-top:13px;"><button class="btn bpu" onclick="saveSw()">Save Tomorrow's Five</button></div></div>
+<div class="cd"><h3>Tomorrow's Intention</h3><p style="margin-bottom:8px;color:var(--tm);font-size:13px;">One sentence. What is tomorrow for?</p>
+<textarea class="ft" id="inti" placeholder="Tomorrow I am focused on..." rows="3"></textarea>
+<button class="btn bpu" style="margin-top:8px;" onclick="saveInt()">Save Intention</button></div>
+</div></div>
+
+<!-- VISION -->
+<div id="rm-vision" class="rm">
+<div class="rh gd"><div class="ew">Vision Room</div><h1>Write the vision and make it plain</h1><p>"Write the vision and make it plain upon tablets, that she who reads it may run." — Habakkuk 2:2</p></div>
+<div class="rb">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;"><h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--pu);">Your Dreams &amp; Goals</h3><button class="btn bgd" onclick="openDM()">+ New Dream</button></div>
+<div id="dgd" class="dg"></div>
+<div id="demp" style="text-align:center;padding:44px 20px;color:var(--tm);"><div style="font-size:38px;margin-bottom:11px;">&#10022;</div><p style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--pu);margin-bottom:6px;">Write your first vision</p><p style="margin-bottom:14px;">Every great thing started as a dream written down.</p><button class="btn bgd" onclick="openDM()">Add a Dream</button></div>
+</div></div>
+
+<!-- IRIS -->
+<div id="rm-iris" class="rm">
+<div class="rh dk"><div class="ew">Intelligence</div><h1>Iris</h1><p>Paste your bulletin from Iris Twin and explore the threads together.</p></div>
+<div class="rb">
+<div class="cd" id="ipaste"><h3>Paste Your Bulletin</h3><p style="margin-bottom:9px;color:var(--tm);font-size:13px;">Get today's bulletin from your Iris GPT, paste it here, then explore.</p>
+<textarea class="ft" id="ibul" placeholder="Paste your Iris bulletin here..." rows="6"></textarea>
+<button class="btn bpu" style="margin-top:8px;" onclick="startI()">Explore this bulletin &#8594;</button></div>
+<div id="ichp" style="display:none;margin-bottom:11px;"><p style="font-size:12px;color:var(--tm);margin-bottom:7px;">Where would you like to start?</p>
+<span class="pl plpu" onclick="iChip('What thread should I own this week?')">What thread should I own?</span>
+<span class="pl plpu" onclick="iChip('Which LinkedIn angle is strongest?')">Strongest LinkedIn angle?</span>
+<span class="pl plpu" onclick="iChip('How does this connect to L.I.F.E.?')">L.I.F.E. connection?</span>
+<span class="pl plpu" onclick="iChip('What is the speaking opportunity here?')">Speaking opportunity?</span>
+<span class="pl" style="background:#fff0f0;color:var(--red);border-color:#ffcccc;" onclick="iChip('Give me an opening line I could use today.')">Opening line for today</span>
+</div>
+<div id="icha" style="display:none;"><div class="cw"><div class="cm" id="ims"></div><div class="cr"><input id="iin" placeholder="Ask Iris..." onkeydown="if(event.key==='Enter')sch('iris')"><button id="ibt" onclick="sch('iris')">Send</button></div></div></div>
+</div></div>
+
+<!-- TEAM -->
+<div id="rm-team" class="rm">
+<div class="rh pu"><div class="ew">The Team</div><h1>Team Room</h1><p>Brief the whole team or go direct to one agent.</p></div>
+<div class="rb">
+<div class="cd" style="margin-bottom:16px;"><h3>Brief the Team</h3>
+<textarea class="ft" id="tbr" placeholder="What do you need from the team today?" rows="4"></textarea>
+<button class="btn bpu" style="margin-top:8px;" onclick="bTeam()">Brief the whole team</button></div>
+<div id="tres" style="margin-bottom:16px;"></div>
+<div class="ag" id="agd"></div>
+</div></div>
+
+<!-- SPARK -->
+<div id="rm-spark" class="rm">
+<div class="rh re"><div class="ew">Ideas</div><h1>&#10022; Spark Room</h1><p>Where ideas land before they are ready. No pressure.</p></div>
+<div class="rb">
+<div style="background:white;border-radius:12px;padding:17px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:16px;">
+<textarea class="ft" id="spin" placeholder="What just came to you? A thought, a phrase, a half-idea — put it here before it disappears..." rows="3"></textarea>
+<div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+<select class="fss" id="spca" style="width:125px;"><option>Idea</option><option>Content</option><option>Speaking</option><option>Product</option><option>Personal</option><option>Faith</option><option>Other</option></select>
+<button class="btn bre" onclick="addSp()">SAVE SPARK</button></div></div>
+<div id="spli"></div>
+<div id="spem" style="text-align:center;padding:32px;color:var(--tm);"><div style="font-size:30px;margin-bottom:9px;">&#10022;</div><p>Your sparks will appear here.</p></div>
+</div></div>
+
+<!-- VOX -->
+<div id="rm-vox" class="rm">
+<div class="rh dk"><div class="ew">Content Pipeline</div><h1>Vox</h1><p>Ideas ready to become content. Develop them here.</p></div>
+<div class="rb">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--pu);">In the Pipeline</h3><button class="btn bpu" onclick="openVM()">+ Add to Vox</button></div>
+<div id="vli"></div>
+<div id="vem" style="text-align:center;padding:32px;color:var(--tm);"><p style="font-size:30px;">&#127897;</p><p style="margin-top:8px;">Nothing in the pipeline yet.</p></div>
+</div></div>
+
+<!-- CONTENT -->
+<div id="rm-content" class="rm">
+<div class="rh pu"><div class="ew">Content</div><h1>Content Room</h1><p>Everything ready to use. Add directly, or pieces flow in from the team, Iris and Shina.</p></div>
+<div class="rb">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;flex-wrap:wrap;gap:6px;">
+<div class="pf" id="pft">
+<span class="pl plpu on" onclick="fCon('all',this)">All</span>
+<span class="pl plpu" onclick="fCon('LinkedIn',this)">LinkedIn</span>
+<span class="pl plpu" onclick="fCon('Instagram',this)">Instagram</span>
+<span class="pl plpu" onclick="fCon('Facebook',this)">Facebook</span>
+<span class="pl plpu" onclick="fCon('TikTok',this)">TikTok</span>
+<span class="pl plpu" onclick="fCon('YouTube',this)">YouTube</span>
+<span class="pl plpu" onclick="fCon('Email',this)">Email</span>
+<span class="pl plpu" onclick="fCon('PR',this)">PR</span>
+<span class="pl plpu" onclick="fCon('Faith',this)">Faith</span>
+<span class="pl plpu" onclick="fCon('Other',this)">Other</span>
+</div>
+<div class="pf">
+<span class="pl plgd on" onclick="fSt('all',this)">All Status</span>
+<span class="pl plgd" onclick="fSt('Ready',this)">Ready</span>
+<span class="pl plgd" onclick="fSt('Scheduled',this)">Scheduled</span>
+<span class="pl plgd" onclick="fSt('Posted',this)">Posted</span>
+</div>
+<button class="btn bpu bsm" onclick="openCM()">+ ADD DIRECTLY</button>
+</div>
+<div id="cli"></div>
+<div id="cem" style="text-align:center;padding:32px;color:var(--tm);"><p style="font-size:30px;">&#9997;&#65039;</p><p style="margin-top:8px;">Run the team, then click Send to Content Room.<br>All your content will appear here, organised by platform.</p></div>
+</div></div>
+
+<!-- RED THREAD -->
+<div id="rm-redthread" class="rm">
+<div class="rh re"><div class="ew">Connections</div><h1>Red Thread</h1><p>Find the through-line. Your version of the murder board.</p></div>
+<div class="rb">
+<div class="cd" style="margin-bottom:13px;"><h3>Add a node</h3>
+<div style="display:flex;gap:8px;"><input type="text" class="fi" id="thin" placeholder="An idea, theme, or connection..." style="flex:1;" onkeydown="if(event.key==='Enter')addTh()"><button class="btn bre" onclick="addTh()">Add</button></div></div>
+<div class="tb" id="thbd"><div style="color:var(--tm);font-size:13px;text-align:center;padding:26px;">Add your first node to start mapping.</div></div>
+<div style="margin-top:11px;display:flex;gap:7px;">
+<button class="btn bol" onclick="findTh()">&#10022; Find the red thread</button>
+<button class="btn bol" onclick="clearTh()">Clear</button></div>
+<div id="than" style="margin-top:13px;"></div>
+</div></div>
+
+<!-- CAMPAIGN -->
+<div id="rm-campaign" class="rm">
+<div class="rh pu"><div class="ew">Strategy</div><h1>Campaign Room</h1><p>Take an idea and build it into a structured campaign.</p></div>
+<div class="rb"><div class="cd"><h3>Build a Campaign</h3><p style="margin-bottom:9px;color:var(--tm);font-size:13px;">Nova and Sage build a campaign plan from your idea.</p>
+<div class="cw"><div class="cm" id="cams"></div><div class="cr"><input id="cain" placeholder="What is the campaign idea?" onkeydown="if(event.key==='Enter')sch('camp')"><button id="cabt" onclick="sch('camp')">Send</button></div></div>
+</div></div></div>
+
+<!-- PITCH -->
+<div id="rm-pitch" class="rm">
+<div class="rh pu"><div class="ew">Speaking &amp; Media</div><h1>Pitch Room</h1><p>Speaker pitches, media pitches, partnership proposals.</p></div>
+<div class="rb">
+<div class="pif">
+<div class="pir2">
+<div class="fg" style="margin:0;"><label class="fl">Outlet or Event</label><input type="text" class="fi" id="pot" placeholder="e.g. BBC Woman's Hour, TEDx..."></div>
+<div class="fg" style="margin:0;"><label class="fl">Pitch Type</label><select class="fss" id="pty"><option>Speaker pitch</option><option>Media pitch</option><option>Partnership proposal</option><option>Podcast pitch</option></select></div>
+</div>
+<div class="fg"><label class="fl">Angle (Optional)</label><input type="text" class="fi" id="pan" placeholder="e.g. origin story, identity in midlife..."></div>
+<div class="fg"><label class="fl">Contact (Optional)</label><input type="text" class="fi" id="pco" placeholder="e.g. Editor name, producer..."></div>
+<button class="btn bpu" onclick="bPitch()">Build Pitch</button></div>
+<div id="pild" style="display:none;text-align:center;padding:16px;"><div class="dt"><span></span><span></span><span></span></div></div>
+<div id="pout" style="display:none;" class="pio"><h4>Your Pitch</h4><div id="ptxt" style="font-size:14px;line-height:1.8;white-space:pre-wrap;"></div>
+<div style="margin-top:11px;display:flex;gap:6px;"><button class="btn bol bsm" onclick="cpyP()">Copy</button><button class="btn bpu bsm" onclick="p2Vox()">&#8594; Vox</button></div></div>
+</div></div>
+
+<!-- C -->
+<div id="rm-c" class="rm">
+<div class="rh lt"><div class="ew" style="color:var(--pu);">Inner Voice</div><h1 style="color:var(--pu);">C</h1><p style="color:var(--tm);">The version of you who already knows. She asks. You find the answer.</p></div>
+<div class="rb"><div style="max-width:600px;margin:0 auto;">
+<p style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--pu);text-align:center;font-style:italic;margin-bottom:7px;">What is on your mind today?</p>
+<p style="text-align:center;color:var(--tm);font-size:13px;margin-bottom:22px;">This is your space. C will ask questions and reflect back until you find what you already know.</p>
+<div class="cw"><div class="cm" id="cms"></div><div class="cr"><input id="cin" placeholder="Say what is on your mind..." onkeydown="if(event.key==='Enter')sch('c')"><button id="cbt" onclick="sch('c')">Send</button></div></div>
+</div></div></div>
+
+<!-- SHINA -->
+<div id="rm-shina" class="rm">
+<div class="rh dk"><div class="ew">Guidance</div><h1>Shina</h1><p>The Sparkle Sage. Warm, wise, unhurried.</p></div>
+<div class="rb">
+<div style="text-align:center;margin-bottom:16px;"><div style="font-size:46px;margin-bottom:6px;">&#127775;</div><p style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--pu);font-style:italic;">Shina Blaze — The Sparkle Sage</p></div>
+<div class="cw"><div class="cm" id="shms"></div><div class="cr"><input id="shin" placeholder="What is on your heart today?" onkeydown="if(event.key==='Enter')sch('shina')"><button id="shbt" onclick="sch('shina')">Talk to Shina</button></div></div>
+</div></div>
+
+<!-- SOUND -->
+<div id="rm-sound" class="rm">
+<div class="rh nv"><div class="ew">Audio</div><h1>Sound Room</h1><p>Your personal audio space. Music that moves you.</p></div>
+<div class="rb">
+<div class="cd"><h3>Power of Me</h3><p style="margin-bottom:11px;color:var(--tm);font-size:13px;">The anchor piece of The Sound Room.</p>
+<div class="snr"><div class="sni">&#127925;</div><div><div class="snn">Power of Me</div><div style="font-size:11px;color:var(--tm);">The founding anchor</div></div></div></div>
+<div class="cd"><h3>Add to Your Sound Room</h3><p style="margin-bottom:10px;color:var(--tm);font-size:13px;">Paste a Spotify, Apple Music, or YouTube link.</p>
+<div style="display:flex;gap:7px;flex-wrap:wrap;">
+<input type="text" class="fi" id="sni" placeholder="Paste a music link..." style="flex:1;min-width:160px;">
+<input type="text" class="fi" id="snn2" placeholder="Name it..." style="width:140px;">
+<button class="btn bpu" onclick="addSn()">Add</button></div>
+<div id="snli" style="margin-top:11px;"></div></div>
+</div></div>
+
+<!-- CALENDAR -->
+<div id="rm-calendar" class="rm">
+<div class="rh pu"><div class="ew">Planning</div><h1>Calendar</h1><p>Your content schedule and key dates.</p></div>
+<div class="rb"><div class="cd">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;"><h3>Schedule</h3><button class="btn bpu bsm" onclick="openCal()">+ Add Item</button></div>
+<div id="calli"></div>
+<div id="callem" style="text-align:center;padding:24px;color:var(--tm);font-size:13px;">No items scheduled yet.</div>
+</div></div></div>
+
+<!-- WIN MAP -->
+<div id="rm-winmap" class="rm">
+<div class="rh gd"><div class="ew">Wins</div><h1>WIN Map&#8482;</h1><p>Record your wins. See the mountain top even in the valley.</p></div>
+<div class="rb">
+<div class="cd" style="margin-bottom:14px;"><h3>Pin a Win</h3>
+<div class="fg"><label class="fl">The Win</label><input type="text" class="fi" id="wint" placeholder="What happened? What did you do?" onkeydown="if(event.key==='Enter')addW()"></div>
+<div style="display:flex;gap:7px;">
+<select class="fss" id="wper" style="width:145px;"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="milestone">Milestone</option></select>
+<button class="btn bgd" onclick="addW()">Pin It &#10022;</button></div></div>
+<div style="display:flex;gap:5px;margin-bottom:11px;flex-wrap:wrap;">
+<span class="pl plgd on" onclick="fW('all',this)">All Wins</span>
+<span class="pl plgd" onclick="fW('daily',this)">Daily</span>
+<span class="pl plgd" onclick="fW('weekly',this)">Weekly</span>
+<span class="pl plgd" onclick="fW('monthly',this)">Monthly</span>
+<span class="pl plgd" onclick="fW('milestone',this)">Milestones</span>
+</div>
+<div id="wli"></div>
+<div id="wem" style="text-align:center;padding:32px;color:var(--tm);"><div style="font-size:32px;margin-bottom:9px;">&#127942;</div><p>Your wins will appear here. Start pinning.</p></div>
+</div></div>
+
+<!-- SEQUENCER -->
+<div id="rm-sequencer" class="rm">
+<div class="rh pu"><div class="ew">Execution</div><h1>The Sequencer</h1><p>From vision to steps. AI breaks it down, you own it.</p></div>
+<div class="rb">
+<div style="background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:16px;">
+<div class="fg"><label class="fl">The Vision or Goal</label><input type="text" class="fi" id="svis" placeholder="State your vision boldly..."></div>
+<div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;">
+<select class="fss" id="stm" style="width:160px;"><option value="no">No timing</option><option value="yes">Include timing</option></select>
+<button class="btn bpu" onclick="runSq()">Build my sequence &#8594;</button></div></div>
+<div id="sqld" style="display:none;text-align:center;padding:16px;"><div class="dt"><span></span><span></span><span></span></div><p style="margin-top:7px;color:var(--tm);font-size:13px;">Building your sequence...</p></div>
+<div id="sqout"></div>
+<div style="margin-top:16px;"><h4 style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--pu);margin-bottom:9px;">Saved Sequences</h4><div id="sqlib"></div></div>
+</div></div>
+
+<!-- BRAND VAULT -->
+<div id="rm-brandvault" class="rm">
+<div class="rh gn"><div class="ew">Assets</div><h1>Brand Vault</h1><p>Your identity, frameworks, and brand rules. Every agent reads from here.</p></div>
+<div class="rb">
+<div class="vg">
+<div class="vc"><div class="vct">The Sparkle Equation&#8482;</div><div class="vcc">Know who you are + Understand the value you bring + Show up unapologetically on purpose = Sparkle</div></div>
+<div class="vc"><div class="vct">Banned Words</div><div class="vcc"><span class="bw">sanctuary</span><span class="bw">wellness space</span><span class="bw">reinvention</span><span class="bw">reconnect</span><span class="bw">membership</span><span class="bw">journey as metaphor</span><span class="bw">empower</span><span class="bw">transformative</span><span class="bw">step into your</span><span class="bw">coaching language</span><span class="bw">em dashes</span><span class="bw">identity transition</span><span class="bw">beautiful</span></div></div>
+<div class="vc"><div class="vct">Media Credentials</div><div class="vcc">BBC One &#183; BBC Two &#183; BBC London &#183; Channel 5 News &#183; Sky News &#183; TEDx 2023<br><br><strong>Titles:</strong> The Sparkle Navigator&#8482; &#183; Identity Midwife</div></div>
+<div class="vc"><div class="vct">Keynote</div><div class="vcc"><strong>L.I.F.E. in Four Chapters</strong><br>Identity-Led Leadership. Know Who You Are Before the Room Decides.</div></div>
+<div class="vc"><div class="vct">Origin Story Rule</div><div class="vcc">The mirror moment and the stroke in 2019 are the same event. Never separate them.</div></div>
+<div class="vc"><div class="vct">Movement &amp; Podcast</div><div class="vcc"><strong>Movement:</strong> I Am HER. I Am HER&#8226;E.<br><strong>Podcast:</strong> Unapologetically HER&#8226;E<br><strong>SPA:</strong> A place for your personal brand to reflect, refresh and recharge.</div></div>
+<div class="vc"><div class="vct">SPA Tiers</div><div class="vcc"><strong>Sparkler:</strong> Awaken Rise Shine<br><strong>VIP:</strong> Refine Align Emerge<br><strong>VIP Premium:</strong> Own Elevate Flourish<br><strong>Corporate:</strong> Invest Develop Thrive</div></div>
+<div class="vc"><div class="vct">Core Positioning</div><div class="vcc"><strong>Recognition. Not reinvention.</strong><br><br>Use "presence" not "visibility". Your personal brand is the story you tell the moment you show up before you say a single word.</div></div>
+</div>
+<div style="margin-top:16px;background:white;border-radius:12px;padding:17px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+<div class="vct" style="margin-bottom:8px;">Upload Brand Documents</div>
+<p style="font-size:13px;color:var(--tm);margin-bottom:9px;">Upload brand guidelines, frameworks, letters.</p>
+<div style="border:2px dashed var(--gr);border-radius:8px;padding:24px;text-align:center;cursor:pointer;" onclick="document.getElementById('bdu').click()">
+<div style="font-size:26px;margin-bottom:6px;">&#128196;</div><p style="font-size:13px;color:var(--tm);">Click to upload or drag and drop</p><p style="font-size:11px;color:#aaa;">PDF, Word, or text files</p></div>
+<input type="file" id="bdu" style="display:none;" accept=".pdf,.doc,.docx,.txt" multiple>
+<div id="bdl" style="margin-top:9px;"></div></div>
+</div></div>
+
+<!-- WORKSHOP -->
+<div id="rm-workshop" class="rm">
+<div class="rh ch"><div class="ew">Build</div><h1>Workshop</h1><p>The build and experiment space.</p></div>
+<div class="rb"><div class="cd"><h3>What are you building?</h3>
+<div class="cw"><div class="cm" id="wsms"></div><div class="cr"><input id="wsin" placeholder="Describe what you want to build..." onkeydown="if(event.key==='Enter')sch('ws')"><button id="wsbt" onclick="sch('ws')">Send</button></div></div>
+</div></div></div>
+
+</div></div>
+
+<!-- MODALS -->
+<div class="ov" id="mo-api"><div class="mo"><h2>API Key</h2><p class="msub">Your Anthropic API key — stored in this browser only.</p><div class="fg"><label class="fl">API Key</label><input type="password" class="fi" id="apii" placeholder="sk-ant-..."></div><div class="mft"><button class="btn bol" onclick="clM('mo-api')">Cancel</button><button class="btn bpu" onclick="svKey()">Save</button></div></div></div>
+<div class="ov" id="mo-dream"><div class="mo"><h2>New Dream</h2><p class="msub">Write the vision and make it plain.</p><div class="fg"><label class="fl">The Dream or Goal</label><input type="text" class="fi" id="dti" placeholder="State it plainly and boldly..."></div><div class="fg"><label class="fl">Why It Matters</label><textarea class="ft" id="dwh" placeholder="Why does this matter to you?" rows="3"></textarea></div><div class="fg"><label class="fl">Dream Image</label><input type="file" id="dim" accept="image/*" style="font-size:13px;"></div><div class="fg"><label class="fl">The Seven Steps</label><div id="dste"></div></div><div class="mft"><button class="btn bol" onclick="clM('mo-dream')">Cancel</button><button class="btn bgd" onclick="svDream()">Save Dream</button></div></div></div>
+<div class="ov" id="mo-dd"><div class="mo" style="max-width:580px;"><div id="ddin"></div><div class="mft"><button class="btn bol" onclick="clM('mo-dd')">Close</button><button class="btn bol" onclick="prDream()">Print</button><button class="btn bgd" id="acbt" onclick="mkAch()">&#10003; Mark Achieved</button></div></div></div>
+<div class="ov" id="mo-vox"><div class="mo"><h2>Add to Vox</h2><div class="fg"><label class="fl">Title</label><input type="text" class="fi" id="vti" placeholder="What is this piece about?"></div><div class="fg"><label class="fl">Content or Idea</label><textarea class="ft" id="vco" placeholder="Paste content or describe the idea..." rows="5"></textarea></div><div class="fg"><label class="fl">Source</label><input type="text" class="fi" id="vso" placeholder="Iris, Spark Room, Team..."></div><div class="mft"><button class="btn bol" onclick="clM('mo-vox')">Cancel</button><button class="btn bpu" onclick="svVox()">Add to Vox</button></div></div></div>
+<div class="ov" id="mo-cont"><div class="mo"><h2>Add Content</h2><div class="fg"><label class="fl">Content</label><textarea class="ft" id="cti" rows="5" placeholder="Paste or write your content..."></textarea></div><div class="fg"><label class="fl">Platform</label><select class="fss" id="cpi"><option>LinkedIn</option><option>Instagram</option><option>Facebook</option><option>TikTok</option><option>YouTube</option><option>Email</option><option>PR</option><option>Faith</option><option>Other</option></select></div><div class="fg"><label class="fl">Status</label><select class="fss" id="csi"><option>Ready</option><option>Scheduled</option><option>Posted</option></select></div><div class="mft"><button class="btn bol" onclick="clM('mo-cont')">Cancel</button><button class="btn bpu" onclick="svCont()">Save</button></div></div></div>
+<div class="ov" id="mo-cal"><div class="mo"><h2>Add to Calendar</h2><div class="fg"><label class="fl">Item</label><input type="text" class="fi" id="cati" placeholder="What is it?"></div><div class="fg"><label class="fl">Date</label><input type="date" class="fi" id="cada"></div><div class="fg"><label class="fl">Type</label><select class="fss" id="caty"><option>Content</option><option>Campaign</option><option>Speaking</option><option>Event</option><option>Personal</option><option>Other</option></select></div><div class="mft"><button class="btn bol" onclick="clM('mo-cal')">Cancel</button><button class="btn bpu" onclick="svCal()">Save</button></div></div></div>
+<div class="ov" id="mo-agent"><div class="mo" style="max-width:580px;"><div style="display:flex;align-items:center;gap:9px;margin-bottom:15px;"><span id="amem" style="font-size:25px;"></span><div><h2 id="amna" style="margin:0;"></h2><p id="amro" style="color:var(--tm);font-size:12px;margin:0;"></p></div><button onclick="clM('mo-agent')" style="margin-left:auto;background:none;border:none;font-size:17px;cursor:pointer;color:var(--tm);">&#10005;</button></div><div class="cw" style="min-height:320px;"><div class="cm" id="amms" style="min-height:220px;"></div><div class="cr"><input id="amin" placeholder="Brief..." onkeydown="if(event.key==='Enter')sndAg()"><button id="ambt" onclick="sndAg()">Send</button></div></div></div></div>
+
+<script>
+const SBU='https://tyqaqfsieolixdtfgcbb.supabase.co',SBK='sb_publishable_zGmRc72IrjdtJURlIU6mMg_qNxibtpA';
+let aK=localStorage.getItem('wtd_k')||'';
+let cP='g',pH=[],iH=[],iBul='',cH=[],shH=[],caH=[],wsH=[],curAg=null,agH={};
+let sw=[],sli=[],dr=[],vx=[],sp=[],cal=[],wins=[],ct=[],th=[],curD=null,cpf='all',csf='all',cwf='all';
+let snds=JSON.parse(localStorage.getItem('wtd_sn')||'[]');
+const LOGO='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';
+document.getElementById('logo').src='data:image/jpeg;base64,'+LOGO;
+const AG=[
+{id:'nova',emoji:'\uD83C\uDF0D',name:'Nova',role:'Global Marketing Strategist',desc:'Sees the big picture. Market positioning and maximum reach.',
+p:'You are Nova, Global Marketing Strategist for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke (The Sparkle Navigator\u2122, Identity Midwife, TEDx speaker, BBC/Sky News/Channel 5). Big picture strategy, bold positioning, maximum reach. Sparkle Equation\u2122: Know who you are \u00B7 Understand the value you bring \u00B7 Show up unapologetically on purpose. BANNED: em dashes, reconnect, sanctuary, identity transition, empower, journey as metaphor. Use: presence not visibility, recognition not reinvention.'},
+{id:'sage',emoji:'\uD83D\uDCE1',name:'Sage',role:'Global PR Strategist',desc:'Finds the story nobody else is pitching. News hooks and cultural angles.',
+p:'You are Sage, Global PR Strategist for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke (The Sparkle Navigator\u2122, TEDx 2023, BBC One/Two/London/Sky News/Channel 5). Find the story nobody else is pitching. Connect to what is happening NOW. Always ask: what makes this now? NEVER fabricate citations or sources.'},
+{id:'remy',emoji:'\u270D\uFE0F',name:'Remy',role:'Copywriter',desc:'Writes in your voice. Copy that leads with the reader.',
+p:'You are Remy, Copywriter for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke. Write in Carole\'s voice. BANNED: em dashes, reconnect, sanctuary, truth in values language, identity transition, rewarding, again after recognise, empower, transformative, journey as metaphor, beautiful. ALWAYS: lead with reader not Carole\'s story, presence not visibility, hold two truths at once (hard and hopeful). Recognition not reinvention. Direct, real, human.'},
+{id:'ace',emoji:'\uD83D\uDD25',name:'Ace',role:'Opportunity Creator',desc:'Spots commercial and partnership opportunities \u2014 outward facing always.',
+p:'You are Ace, Opportunity Creator for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke. ALWAYS outward-facing. Two directions: (1) where people can buy/access Carole\'s offers NOW; (2) commercial, platform, partnership opportunities. ALWAYS structure: SHORT-TERM vs LONGER-TERM across three lenses: Revenue & Commercial, Audience & Platform, Partnership & Collaboration.'},
+{id:'quinn',emoji:'\uD83D\uDD0D',name:'Quinn',role:'Critic & Editor',desc:'Keeps it honest. Catches what is weak before it goes anywhere.',
+p:'You are Quinn, Critic and Editor for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke. Keep everything honest. Catch what is weak, off-brand, not ready. Direct not cruel. End with the single most important thing to fix first.'},
+];
+const PR={
+g:'You are responding as Papa G \u2014 how Carole Pyke (founder, Words That Deliver) experiences God the Father in prayer. The COO \u2014 vision holder who sees the end from the beginning. Speak with authority, wisdom, and deep fatherly love. Scripture-rooted but conversational. Affirm, correct gently, always point toward purpose and legacy.',
+jc:'You are responding as JC \u2014 Jesus Christ \u2014 how Carole experiences Jesus in prayer. The way-maker. Speak with warmth, directness, and grace. A companion who has walked the path. Use story where helpful. Never condemn. NKJV language.',
+h:'You are responding as H \u2014 the Holy Spirit \u2014 how Carole experiences the Holy Spirit. Still small voice. Ask the one question that opens the door. Short, precise, probing. Surface what is known but not yet seen. Whispers not speeches.'
+};
+const CH={
+iris:{h:()=>iH,set:(v)=>iH=v,m:'ims',i:'iin',b:'ibt',s:()=>'You are Iris, intelligence analyst for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke (The Sparkle Navigator\u2122). Explore the bulletin with Carole: threads to own, LinkedIn angles, L.I.F.E. connections (Leadership Identity Focus Execution), speaking opportunities, opening lines. NEVER cite sources not in the bulletin. Bulletin: '+iBul},
+c:{h:()=>cH,set:(v)=>cH=v,m:'cms',i:'cin',b:'cbt',s:()=>'You are C \u2014 the inner voice of Carole Pyke. The version of Carole who already knows. Ask questions and reflect back until she finds what she already knows. Never give answers \u2014 ask the one question that opens the door. Short, precise. One question at a time.'},
+shina:{h:()=>shH,set:(v)=>shH=v,m:'shms',i:'shin',b:'shbt',s:()=>'You are Shina Blaze, The Sparkle Sage for Words That Deliver. Warm, wise, unhurried. The voice that says slow down. Flowing warm prose \u2014 never bullets. One thoughtful question at a time. Honour Carole\'s Christian faith. Create space to breathe, not more tasks.'},
+camp:{h:()=>caH,set:(v)=>caH=v,m:'cams',i:'cain',b:'cabt',s:()=>'You are Nova and Sage for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke. Build campaign plans: name, core message, platforms (LinkedIn/Instagram/WhatsApp/speaking), PR angle, phases, three content pillars. No banned words.'},
+ws:{h:()=>wsH,set:(v)=>wsH=v,m:'wsms',i:'wsin',b:'wsbt',s:()=>'You are a creative and technical collaborator in The Workshop for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke. Help prototype ideas, build tools, test frameworks. Practical, creative, encouraging.'}
+};
+async function sb(m,t,d,p=''){
+try{const o={headers:{'apikey':SBK,'Authorization':'Bearer '+SBK}};
+if(m==='G'){const r=await fetch(SBU+'/rest/v1/'+t+'?order=created_at.asc'+p,o);return await r.json();}
+if(m==='P'){o.method='POST';o.headers['Content-Type']='application/json';o.headers['Prefer']='return=representation';o.body=JSON.stringify(d);const r=await fetch(SBU+'/rest/v1/'+t,o);const j=await r.json();return Array.isArray(j)?j[0]:j;}
+if(m==='U'){o.method='PATCH';o.headers['Content-Type']='application/json';o.body=JSON.stringify(d);await fetch(SBU+'/rest/v1/'+t+'?id=eq.'+p,o);}
+if(m==='D'){o.method='DELETE';await fetch(SBU+'/rest/v1/'+t+'?id=eq.'+p,o);}
+}catch(e){return m==='G'?[]:null;}}
+function go(r){
+document.querySelectorAll('.rm').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.n').forEach(x=>x.classList.remove('on'));
+const el=document.getElementById('rm-'+r);if(el)el.classList.add('on');
+document.querySelectorAll('.n').forEach(x=>{if(x.getAttribute('onclick')&&x.getAttribute('onclick').includes("'"+r+"'"))x.classList.add('on');});
+if(r==='daily5')ldD5();if(r==='vision')ldDr();if(r==='vox')ldVx();
+if(r==='spark')ldSp();if(r==='calendar')ldCal();if(r==='winmap')ldW();
+if(r==='content')ldCt();if(r==='entrance')bWk();if(r==='sound')rnSn();if(r==='sequencer')rnSqL();
+if(r==='c'&&cH.length===0)aM('cms','as','What is on your mind today?');
+if(r==='shina'&&shH.length===0)aM('shms','as','Welcome. What is on your heart today?');
+}
+function openApi(){document.getElementById('apii').value=aK;document.getElementById('mo-api').classList.add('op');}
+function clM(id){document.getElementById(id).classList.remove('op');}
+function svKey(){aK=document.getElementById('apii').value.trim();localStorage.setItem('wtd_k',aK);clM('mo-api');}
+async function ai(sys,msgs){
+if(!aK){alert('Please set your API key \u2014 tap \u2699 in the sidebar.');return null;}
+try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':aK,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2000,system:sys,messages:msgs})});
+if(!r.ok){const e=await r.json();alert('API Error: '+(e.error?.message||'Unknown'));return null;}
+const d=await r.json();return d.content?.[0]?.text||'';}
+catch(e){alert('Connection error. Check your API key.');return null;}}
+function aM(cid,role,txt){const c=document.getElementById(cid);if(!c)return;const d=document.createElement('div');d.className='ms '+role;d.innerHTML='<div class="bbl">'+txt.replace(/\n/g,'<br>')+'</div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function aPM(role,txt){const c=document.getElementById('pm');const d=document.createElement('div');d.className='pmg '+role;d.innerHTML='<div class="pbb">'+txt.replace(/\n/g,'<br>')+'</div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function ldg(cid,bid,on){const b=document.getElementById(bid);if(b)b.disabled=on;
+if(on){const c=document.getElementById(cid);if(!c)return;const d=document.createElement('div');d.id='ld-'+cid;d.className='ms as';d.innerHTML='<div class="bbl"><div class="dt"><span></span><span></span><span></span></div></div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+else{const x=document.getElementById('ld-'+cid);if(x)x.remove();}}
+function ldgP(on){const b=document.getElementById('psb');if(b)b.disabled=on;
+if(on){const c=document.getElementById('pm');const d=document.createElement('div');d.id='ld-pray';d.className='pmg as';d.innerHTML='<div class="pbb"><div class="dt"><span></span><span></span><span></span></div></div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+else{const x=document.getElementById('ld-pray');if(x)x.remove();}}
+async function sch(rm){const cfg=CH[rm];if(!cfg)return;const inp=document.getElementById(cfg.i);const txt=inp.value.trim();if(!txt)return;inp.value='';const h=cfg.h();aM(cfg.m,'us',txt);h.push({role:'user',content:txt});ldg(cfg.m,cfg.b,true);const r=await ai(cfg.s(),h);ldg(cfg.m,cfg.b,false);if(r){aM(cfg.m,'as',r);h.push({role:'assistant',content:r});cfg.set(h);}}
+function selP(a){cP=a;pH=[];document.querySelectorAll('.pa').forEach(c=>c.classList.remove('on'));document.getElementById('pa-'+a).classList.add('on');const nm={g:'Papa G',jc:'JC',h:'H'};document.getElementById('pw').textContent='Speaking with '+nm[a];document.getElementById('pm').innerHTML='';aPM('as','The room is ready. What is on your heart?');}
+async function sndP(){const inp=document.getElementById('pi');const txt=inp.value.trim();if(!txt)return;inp.value='';aPM('us',txt);pH.push({role:'user',content:txt});ldgP(true);const r=await ai(PR[cP],pH);ldgP(false);if(r){aPM('as',r);pH.push({role:'assistant',content:r});}}
+function startI(){iBul=document.getElementById('ibul').value.trim();if(!iBul){alert('Please paste your Iris bulletin first.');return;}iH=[];document.getElementById('ims').innerHTML='';document.getElementById('ichp').style.display='block';document.getElementById('icha').style.display='block';aM('ims','as','Bulletin received. Where would you like to start?');}
+function iChip(t){document.getElementById('iin').value=t;sch('iris');}
+function rnAg(){document.getElementById('agd').innerHTML=AG.map(a=>'<div class="ac" onclick="opAg(\''+a.id+'\')"><div class="ach"><div class="ae">'+a.emoji+'</div><h3>'+a.name+'</h3><div class="ar">'+a.role+'</div></div><div class="acb"><p>'+a.desc+'</p><button onclick="event.stopPropagation();opAg(\''+a.id+'\')">Talk to '+a.name+' \u2192</button></div></div>').join('');}
+async function bTeam(){
+const br=document.getElementById('tbr').value.trim();
+if(!br){alert('Please write a brief first.');return;}
+const con=document.getElementById('tres');
+con.innerHTML='<p style="color:var(--tm);font-size:13px;margin-bottom:11px;">Briefing the team...</p>';
+for(const a of AG){
+const d=document.createElement('div');
+d.className='cd';
+d.style.borderLeft='4px solid var(--pu)';
+const h=document.createElement('div');
+h.style.cssText='display:flex;align-items:center;gap:7px;margin-bottom:8px;';
+h.innerHTML='<span style="font-size:17px;">'+a.emoji+'</span><strong style="color:var(--pu);font-family:Cormorant Garamond,serif;font-size:16px;">'+a.name+'</strong>';
+d.appendChild(h);
+const ld=document.createElement('div');ld.className='dt';ld.innerHTML='<span></span><span></span><span></span>';d.appendChild(ld);
+con.appendChild(d);
+const r=await ai(a.p,[{role:'user',content:br}]);
+ld.remove();
+const p=document.createElement('p');
+p.style.cssText='font-size:13px;line-height:1.7;';
+p.innerHTML=(r||'No response').replace(/\n/g,'<br>');
+d.appendChild(p);
+const vb=document.createElement('button');
+vb.className='btn bol bsm';
+vb.textContent='Send to Vox';
+vb.style.marginTop='8px';
+const agName=a.name;
+const resp=r||'';
+vb.onclick=()=>qVx(agName,br.substring(0,50),resp.substring(0,150));
+d.appendChild(vb);
+}
+}
+function opAg(id){const a=AG.find(x=>x.id===id);if(!a)return;curAg=a;if(!agH[id])agH[id]=[];document.getElementById('amem').textContent=a.emoji;document.getElementById('amna').textContent=a.name;document.getElementById('amro').textContent=a.role;document.getElementById('amms').innerHTML='';document.getElementById('amin').value='';document.getElementById('mo-agent').classList.add('op');}
+async function sndAg(){if(!curAg)return;const inp=document.getElementById('amin');const txt=inp.value.trim();if(!txt)return;inp.value='';const h=agH[curAg.id];aM('amms','us',txt);h.push({role:'user',content:txt});ldg('amms','ambt',true);const r=await ai(curAg.p,h);ldg('amms','ambt',false);if(r){aM('amms','as',r);h.push({role:'assistant',content:r});}}
+async function ldD5(){sli=await sb('G','studio_list');rnLI();const data=await sb('G','daily5');const td=new Date().toISOString().split('T')[0];const e=data.find(d=>d.date===td);if(e){sw=e.swings||[];document.getElementById('inti').value=e.intention||'';}else{sw=Array(5).fill(null).map(()=>({text:'',done:false}));}rnSw();rnD5();}
+function rnLI(){const el=document.getElementById('sli');if(!sli.length){el.innerHTML='<p style="color:var(--tm);font-size:13px;font-style:italic;">Your list is empty.</p>';return;}el.innerHTML=sli.map(i=>'<div class="lr"><span>'+i.item+'</span><span class="ld" onclick="dlLI(\''+i.id+'\')">&#10005;</span></div>').join('');}
+async function addLI(){const i=document.getElementById('li');const t=i.value.trim();if(!t)return;i.value='';const item=await sb('P','studio_list',{item:t});if(item){sli.push(item);rnLI();}}
+async function dlLI(id){await sb('D','studio_list','',id);sli=sli.filter(i=>i.id!==id);rnLI();}
+function rnSw(){document.getElementById('swli').innerHTML=sw.map((s,i)=>'<div class="swr"><div class="swn">'+(i+1)+'</div><input class="swi" value="'+(s.text||'')+'" placeholder="Swing '+(i+1)+'..." onchange="sw['+i+'].text=this.value"><span class="swdb '+(s.done?'dn':'')+'" onclick="tgSw('+i+')">'+(s.done?'&#10003;':'&#9675;')+'</span><span class="swdl" onclick="rmSw('+i+')">&#10005;</span></div>').join('');}
+function addSw(){if(sw.length<7){sw.push({text:'',done:false});rnSw();}}
+function rmSw(i){sw.splice(i,1);rnSw();}
+function tgSw(i){sw[i].done=!sw[i].done;rnSw();rnD5();}
+async function saveSw(){document.querySelectorAll('#swli .swi').forEach((inp,i)=>{if(sw[i])sw[i].text=inp.value;});const td=new Date().toISOString().split('T')[0];const data=await sb('G','daily5');const e=data.find(d=>d.date===td);if(e)await sb('U','daily5',{swings:sw},e.id);else await sb('P','daily5',{date:td,swings:sw,intention:document.getElementById('inti').value});rnD5();alert('Five swings saved. Tomorrow is ready.');}
+async function saveInt(){const int=document.getElementById('inti').value.trim();const td=new Date().toISOString().split('T')[0];const data=await sb('G','daily5');const e=data.find(d=>d.date===td);if(e)await sb('U','daily5',{intention:int},e.id);else await sb('P','daily5',{date:td,swings:[],intention:int});alert('Intention saved.');}
+async function sugSw(){if(!sli.length){alert('Add items to your running list first.');return;}const list=sli.map(i=>'- '+i.item).join('\n');const r=await ai('You are a planning assistant for Carole Pyke. Given her running list, suggest the FIVE most important swings for tomorrow. Return ONLY a numbered list of five short items. No explanations.',[{role:'user',content:'Running list:\n'+list+'\n\nPick my five most important swings for tomorrow.'}]);if(r){const lines=r.split('\n').filter(l=>l.trim()).slice(0,5);sw=lines.map(l=>({text:l.replace(/^\d+[\.\)]\s*/,'').trim(),done:false}));while(sw.length<5)sw.push({text:'',done:false});rnSw();}}
+function rnD5(){const pv=document.getElementById('d5pv');const ac=sw.filter(s=>s.text);if(!ac.length){pv.innerHTML='<span style="font-size:12px;color:rgba(255,255,255,.38);font-style:italic;">Set your intention. Swing with purpose.</span>';return;}pv.innerHTML=ac.map(s=>'<div class="d5s '+(s.done?'dn':'')+'" onclick="go(\'daily5\')">'+(s.done?'&#10003; ':'')+s.text+'</div>').join('');}
+function openDM(){document.getElementById('dti').value='';document.getElementById('dwh').value='';document.getElementById('dim').value='';document.getElementById('dste').innerHTML=Array.from({length:7},(_,i)=>'<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;"><div class="stc">'+(i+1)+'</div><input type="text" class="fi" id="ds'+i+'" placeholder="Step '+(i+1)+'..." style="flex:1;"></div>').join('');document.getElementById('mo-dream').classList.add('op');}
+function toB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f);});}
+async function svDream(){const ti=document.getElementById('dti').value.trim();if(!ti){alert('Please name your dream.');return;}const wh=document.getElementById('dwh').value.trim();const steps=Array.from({length:7},(_,i)=>({text:document.getElementById('ds'+i)?.value.trim()||'',done:false}));let img='';const f=document.getElementById('dim').files[0];if(f)img=await toB64(f);const d=await sb('P','vision_dreams',{title:ti,why_it_matters:wh,steps,dream_image:img,achieved:false});if(d){dr.push(d);rnDr();}clM('mo-dream');}
+async function ldDr(){dr=await sb('G','vision_dreams');rnDr();}
+function rnDr(){
+const g=document.getElementById('dgd'),em=document.getElementById('demp');
+if(!dr.length){g.innerHTML='';em.style.display='block';return;}
+em.style.display='none';
+g.innerHTML='';
+dr.forEach(d=>{
+const el=document.createElement('div');
+el.className='dc';
+el.onclick=()=>opDr(d.id);
+const img=d.dream_image?'<img src="'+d.dream_image+'" alt="'+d.title+'">'  :'<span style="font-size:36px;color:var(--pm);">&#10022;</span>';
+const why=(d.why_it_matters||'').substring(0,65)+(d.why_it_matters&&d.why_it_matters.length>65?'...':'');
+el.innerHTML='<div class="di">'+img+'</div><div class="dcb"><h4>'+d.title+'</h4><p>'+why+'</p>'+(d.achieved?'<span class="ab">&#10003; Achieved</span>':'')+'</div>';
+g.appendChild(el);
+});}
+function opDr(id){curD=dr.find(d=>d.id===id);if(!curD)return;const d=curD;const steps=(d.steps||[]).filter(s=>s.text);document.getElementById('ddin').innerHTML=(d.dream_image?'<img src="'+d.dream_image+'" style="width:100%;border-radius:8px;margin-bottom:16px;max-height:210px;object-fit:cover;">':'')+'<h2 style="font-family:\'Cormorant Garamond\',serif;font-size:28px;color:var(--pu);margin-bottom:9px;">'+d.title+'</h2>'+(d.why_it_matters?'<div style="margin-bottom:16px;"><div class="clb">Why It Matters</div><p style="font-size:14px;line-height:1.7;">'+d.why_it_matters+'</p></div>':'')+'<div style="margin-bottom:18px;"><div class="clb" style="margin-bottom:9px;">The Seven Steps</div>'+steps.map((s,i)=>'<div class="str"><div class="stc '+(s.done?'dn':'')+'">'+(i+1)+'</div><span style="flex:1;font-size:13px;">'+s.text+'</span><button onclick="tgSt(\''+d.id+'\','+i+')" style="background:none;border:none;cursor:pointer;color:'+(s.done?'var(--pu)':'var(--gr)')+';font-size:17px;">'+(s.done?'&#10003;':'&#9675;')+'</button></div>').join('')+'</div><div class="az '+(d.achieved?'':'lk')+'"><h4>&#10022; The Achievement</h4>'+(d.achieved?'<p style="font-size:12px;color:#8B6914;margin-bottom:5px;">Achieved: '+(d.achievement_date||'')+'</p><p style="font-size:13px;line-height:1.7;">'+(d.achievement_story||'')+'</p>':'<p style="color:#8B6914;font-size:13px;">This space comes alive when your dream is achieved.</p>')+'</div>';document.getElementById('acbt').style.display=d.achieved?'none':'block';document.getElementById('mo-dd').classList.add('op');}
+async function tgSt(did,si){const d=dr.find(x=>x.id===did);if(!d)return;d.steps[si].done=!d.steps[si].done;await sb('U','vision_dreams',{steps:d.steps},did);opDr(did);}
+function mkAch(){if(!curD)return;const dt=prompt('Date achieved:')||'';const st=prompt('Write your celebration story:')||'';sb('U','vision_dreams',{achieved:true,achievement_date:dt,achievement_story:st},curD.id);curD.achieved=true;curD.achievement_date=dt;curD.achievement_story=st;rnDr();clM('mo-dd');}
+function prDream(){
+if(!curD)return;
+const d=curD;
+const steps=(d.steps||[]).filter(s=>s.text);
+const w=window.open('','_blank');
+const imgHtml=d.dream_image?'<img src="'+d.dream_image+'">'  :'';
+const whyHtml=d.why_it_matters?'<div class="wl">Why It Matters</div><div class="wy">'+d.why_it_matters+'</div>':'';
+const stepsHtml=steps.map((s,i)=>'<div class="st"><div class="sn">'+(i+1)+'</div><span style="font-size:13px;line-height:1.6;">'+s.text+'</span></div>').join('');
+const achHtml=d.achieved?'<p>Achieved: '+(d.achievement_date||'')+'</p><p style="margin-top:7px;line-height:1.7;">'+(d.achievement_story||'')+'</p>':'<p style="color:#8B6914;">Waiting for the moment this dream becomes real.</p>';
+const html='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Georgia,serif;max-width:660px;margin:40px auto;padding:40px;color:#1a1a1a;}h1{font-size:32px;color:#40003F;margin:16px 0 9px;}.wl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#FF0000;margin-bottom:4px;}.wy{font-size:14px;line-height:1.8;margin-bottom:24px;}.st{display:flex;gap:9px;align-items:flex-start;margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid #eee;}.sn{width:24px;height:24px;border-radius:50%;background:#40003F;color:white;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}img{width:100%;border-radius:8px;margin-bottom:16px;max-height:260px;object-fit:cover;}.ach{margin-top:32px;border:2px solid #C9A84C;border-radius:8px;padding:18px;background:#fdf8ed;}.ach h3{color:#8B6914;font-size:17px;margin-bottom:9px;}.scr{font-style:italic;font-size:11px;color:#888;text-align:center;margin-top:32px;border-top:1px solid #eee;padding-top:14px;}</style></head><body>'+imgHtml+'<h1>'+d.title+'</h1>'+whyHtml+'<div class="wl" style="margin-bottom:12px;">The Seven Steps</div>'+stepsHtml+'<div class="ach"><h3>The Achievement</h3>'+achHtml+'</div><div class="scr">Write the vision and make it plain upon tablets, that she who reads it may run. Habakkuk 2:2</div></body></html>';
+w.document.write(html);
+w.document.close();
+w.print();}
+async function ldSp(){sp=await sb('G','spark_notes');rnSp();}
+function rnSp(){
+const l=document.getElementById('spli'),em=document.getElementById('spem');
+if(!sp.length){l.innerHTML='';em.style.display='block';return;}
+em.style.display='none';
+l.innerHTML='';
+sp.slice().reverse().forEach(s=>{
+const d=document.createElement('div');d.className='spr';
+d.innerHTML='<div style="flex:1;"><div class="spc">'+(s.category||'Idea')+'</div><div class="spt">'+s.content+'</div></div><div class="spbs"><button class="spb" data-id="'+s.id+'" data-cont="'+encodeURIComponent(s.content)+'" onclick="sp2V(decodeURIComponent(this.dataset.cont))">&#8594; Vox</button><button class="spb" data-id="'+s.id+'" onclick="dlSp(this.dataset.id)">&#10005;</button></div>';
+l.appendChild(d);
+});}
+async function addSp(){const i=document.getElementById('spin');const t=i.value.trim();if(!t)return;const c=document.getElementById('spca').value;const item=await sb('P','spark_notes',{content:t,category:c});if(item){sp.push(item);i.value='';rnSp();}}
+async function dlSp(id){await sb('D','spark_notes','',id);sp=sp.filter(s=>s.id!==id);rnSp();}
+async function sp2V(content){await sb('P','vox_pipeline',{title:'From Spark Room',content,source:'Spark Room',status:'pending'});alert('Sent to Vox.');}
+async function ldVx(){vx=await sb('G','vox_pipeline');rnVx();}
+function rnVx(){
+const l=document.getElementById('vli'),em=document.getElementById('vem');
+if(!vx.length){l.innerHTML='';em.style.display='block';return;}
+em.style.display='none';
+l.innerHTML='';
+vx.slice().reverse().forEach(v=>{
+const d=document.createElement('div');d.className='vr';
+const ti=v.title||'Untitled';
+const co=(v.content||'').substring(0,150);
+const dt=new Date(v.created_at).toLocaleDateString('en-GB');
+d.innerHTML='<div class="vt">'+ti+'</div><div class="vco">'+co+(v.content&&v.content.length>150?'...':'')+'</div><div class="vm">From: '+(v.source||'Unknown')+' &middot; '+dt+'</div><div class="va"></div>';
+const va=d.querySelector('.va');
+const db=document.createElement('button');db.className='btn bol bsm';db.textContent='Develop';db.onclick=()=>dvVx(v.id,v.title||'',v.content||'');va.appendChild(db);
+const xb=document.createElement('button');xb.className='btn bol bsm';xb.textContent='Remove';xb.onclick=()=>dlVx(v.id);va.appendChild(xb);
+l.appendChild(d);
+});}
+function openVM(){document.getElementById('mo-vox').classList.add('op');}
+async function svVox(){const ti=document.getElementById('vti').value.trim();const co=document.getElementById('vco').value.trim();const so=document.getElementById('vso').value.trim();if(!ti){alert('Please add a title.');return;}await sb('P','vox_pipeline',{title:ti,content:co,source:so,status:'pending'});clM('mo-vox');await ldVx();}
+async function dlVx(id){await sb('D','vox_pipeline','',id);vx=vx.filter(v=>v.id!==id);rnVx();}
+async function qVx(src,ti,co){await sb('P','vox_pipeline',{title:ti,content:co,source:src,status:'pending'});alert('Sent to Vox.');}
+async function dvVx(id,ti,co){go('content');setTimeout(()=>{openCM();document.getElementById('cti').value='[From Vox: '+ti+']\n\n'+co;},300);}
+async function ldCt(){ct=await sb('G','vox_pipeline','&content_status=neq.null');rnCt();}
+function rnCt(){const l=document.getElementById('cli'),em=document.getElementById('cem');let f=ct;if(cpf!=='all')f=f.filter(c=>c.platform===cpf);if(csf!=='all')f=f.filter(c=>c.content_status===csf);if(!f.length){l.innerHTML='';em.style.display='block';return;}em.style.display='none';l.innerHTML=f.slice().reverse().map(c=>'<div class="ci2"><span class="cip">'+(c.platform||'General')+'</span><span class="cist '+(c.content_status==='Ready'?'sr':c.content_status==='Scheduled'?'ss2':'sp')+'">'+(c.content_status||'Ready')+'</span><div class="citx">'+(c.content||c.title||'').substring(0,200)+(c.content&&c.content.length>200?'...':'')+'</div><div style="display:flex;gap:5px;margin-top:7px;"><select class="fss" style="width:120px;font-size:11px;padding:3px 7px;" onchange="updCS(\''+c.id+'\',this.value)"><option '+(c.content_status==='Ready'?'selected':'')+'>Ready</option><option '+(c.content_status==='Scheduled'?'selected':'')+'>Scheduled</option><option '+(c.content_status==='Posted'?'selected':'')+'>Posted</option></select><button class="spb" onclick="dlCt(\''+c.id+'\')">&#10005;</button></div></div>').join('');}
+function fCon(p,el){cpf=p;document.querySelectorAll('#pft .plpu').forEach(x=>x.classList.remove('on'));el.classList.add('on');rnCt();}
+function fSt(s,el){csf=s;document.querySelectorAll('#rm-content .plgd').forEach(x=>x.classList.remove('on'));el.classList.add('on');rnCt();}
+function openCM(){document.getElementById('mo-cont').classList.add('op');}
+async function svCont(){const t=document.getElementById('cti').value.trim();const p=document.getElementById('cpi').value;const s=document.getElementById('csi').value;if(!t){alert('Please add content.');return;}await sb('P','vox_pipeline',{title:'Direct entry',content:t,source:'Content Room',platform:p,content_status:s});clM('mo-cont');await ldCt();}
+async function updCS(id,s){await sb('U','vox_pipeline',{content_status:s},id);await ldCt();}
+async function dlCt(id){await sb('D','vox_pipeline','',id);ct=ct.filter(c=>c.id!==id);rnCt();}
+function addTh(){const i=document.getElementById('thin');const t=i.value.trim();if(!t)return;i.value='';th.push(t);rnTh();}
+function rnTh(){const b=document.getElementById('thbd');if(!th.length){b.innerHTML='<div style="color:var(--tm);font-size:13px;text-align:center;padding:26px;">Add your first node to start mapping.</div>';return;}b.innerHTML=th.map((n,i)=>'<span class="tn" onclick="rmTh('+i+')">'+n+'</span>'+(i<th.length-1?'<span style="color:var(--red);font-size:14px;vertical-align:middle;"> \u2014 </span>':'')).join('');}
+function rmTh(i){th.splice(i,1);rnTh();}
+function clearTh(){th=[];rnTh();document.getElementById('than').innerHTML='';}
+async function findTh(){if(!th.length){alert('Add some nodes first.');return;}const an=document.getElementById('than');an.innerHTML='<div class="dt"><span></span><span></span><span></span></div>';const r=await ai('You are a strategic analyst for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke (The Sparkle Navigator\u2122). Find the through-line connecting these ideas. Name the red thread. Show how each node connects to it. Be specific, direct.',[{role:'user',content:'My thread nodes: '+th.join(', ')+'\n\nWhat is the red thread?'}]);an.innerHTML=r?'<div class="cd"><h3 style="color:var(--red);">The Red Thread</h3><p style="font-size:13px;line-height:1.7;">'+r.replace(/\n/g,'<br>')+'</p></div>':'';}
+async function bPitch(){const ot=document.getElementById('pot').value.trim();if(!ot){alert('Please enter an outlet or event.');return;}const ty=document.getElementById('pty').value;const an=document.getElementById('pan').value.trim();const co=document.getElementById('pco').value.trim();document.getElementById('pild').style.display='block';document.getElementById('pout').style.display='none';const sys='You are Sage, PR Strategist for Words That Deliver \u2014 The Personal Brand Strategy Studio. Write a '+ty+' for Carole Pyke (The Sparkle Navigator\u2122, Identity Midwife, TEDx 2023, BBC One/Two/London/Sky News/Channel 5). Keynote: L.I.F.E. in Four Chapters \u2014 Identity-Led Leadership. Know Who You Are Before the Room Decides. Origin story: The mirror moment and the stroke in 2019 are the same event \u2014 never separate them. Write a compelling, specific, professional pitch. No em dashes. Recognition not reinvention.';const r=await ai(sys,[{role:'user',content:'Write a '+ty+' for '+ot+'.'+(an?' Angle: '+an+'.':'')+(co?' Contact: '+co+'.':'')}]);document.getElementById('pild').style.display='none';if(r){document.getElementById('ptxt').textContent=r;document.getElementById('pout').style.display='block';}}
+function cpyP(){navigator.clipboard.writeText(document.getElementById('ptxt').textContent||'');alert('Copied.');}
+async function p2Vox(){const t=document.getElementById('ptxt').textContent||'';await sb('P','vox_pipeline',{title:'Pitch: '+document.getElementById('pot').value,content:t,source:'Pitch Room',status:'ready'});alert('Sent to Vox.');}
+async function ldW(){wins=await sb('G','spark_notes','&category=eq.Win');rnW();}
+async function addW(){const t=document.getElementById('wint').value.trim();if(!t){alert('Please describe your win.');return;}const p=document.getElementById('wper').value;const item=await sb('P','spark_notes',{content:t,category:'Win',win_period:p});if(item){wins.push(item);document.getElementById('wint').value='';rnW();}}
+function fW(p,el){cwf=p;document.querySelectorAll('#rm-winmap .plgd').forEach(x=>x.classList.remove('on'));el.classList.add('on');rnW();}
+function rnW(){const l=document.getElementById('wli'),em=document.getElementById('wem');let f=wins;if(cwf!=='all')f=f.filter(w=>w.win_period===cwf);if(!f.length){l.innerHTML='';em.style.display='block';return;}em.style.display='none';l.innerHTML=f.slice().reverse().map(w=>'<div class="wp"><div class="wpi">&#10022;</div><div class="wpt2"><div class="wpw">'+w.content+'</div><div class="wpd">'+(w.win_period||'daily')+' &middot; '+new Date(w.created_at).toLocaleDateString('en-GB')+'</div></div></div>').join('');}
+async function runSq(){const vis=document.getElementById('svis').value.trim();if(!vis){alert('Please state your vision.');return;}const tm=document.getElementById('stm').value;document.getElementById('sqld').style.display='block';document.getElementById('sqout').innerHTML='';const sys='You are The Sequencer for Words That Deliver \u2014 The Personal Brand Strategy Studio, Carole Pyke (The Sparkle Navigator\u2122). Break visions into clear, actionable, sequenced steps. Return a JSON array: [{step:number,title:string,why:string'+(tm==='yes'?',timing:string':'')+'},...]  Return ONLY valid JSON, nothing else.';const r=await ai(sys,[{role:'user',content:'Vision: '+vis+'\n\nBreak this into clear sequenced steps.'}]);document.getElementById('sqld').style.display='none';if(r){try{const cl=r.replace(/```json|```/g,'').trim();const steps=JSON.parse(cl);rnSqSt(steps,vis);const sv=JSON.parse(localStorage.getItem('wtd_sq')||'[]');sv.unshift({vision:vis,steps,date:new Date().toLocaleDateString('en-GB')});localStorage.setItem('wtd_sq',JSON.stringify(sv.slice(0,10)));rnSqL();}catch(e){document.getElementById('sqout').innerHTML='<div class="cd"><p style="font-size:13px;line-height:1.7;">'+r.replace(/\n/g,'<br>')+'</p></div>';}}}
+function rnSqSt(steps,vis){document.getElementById('sqout').innerHTML='<div class="cd" style="margin-bottom:14px;"><div class="clb">Vision</div><h3 style="margin-top:3px;">'+vis+'</h3></div>'+steps.map((s,i)=>'<div class="sq"><div class="sqn">'+(s.step||i+1)+'</div><div class="sqb"><div class="sqt">'+s.title+'</div><div class="sqw">'+(s.why||'')+'</div>'+(s.timing?'<div class="sqtm">&#9201; '+s.timing+'</div>':'')+'</div></div>'+(i<steps.length-1?'<div class="sqc"></div>':'')).join('')+'<div style="margin-top:12px;"><button class="btn bol bsm" onclick="cpSq()">Copy all steps</button></div>';}
+function rnSqL(){const sv=JSON.parse(localStorage.getItem('wtd_sq')||'[]');const el=document.getElementById('sqlib');if(!sv.length){el.innerHTML='<p style="font-size:13px;color:var(--tm);">No saved sequences yet.</p>';return;}el.innerHTML=sv.map((s,i)=>'<div class="lr" style="cursor:pointer;" onclick="ldSq('+i+')"><span>'+s.vision+'</span><span style="font-size:11px;color:var(--tm);">'+s.date+'</span></div>').join('');}
+function ldSq(i){const sv=JSON.parse(localStorage.getItem('wtd_sq')||'[]');if(sv[i]){document.getElementById('svis').value=sv[i].vision;rnSqSt(sv[i].steps,sv[i].vision);}}
+function cpSq(){navigator.clipboard.writeText(document.getElementById('sqout').innerText);alert('Copied.');}
+async function ldCal(){cal=await sb('G','daily5');rnCal();}
+function rnCal(){const l=document.getElementById('calli'),em=document.getElementById('callem');const items=cal.filter(c=>c.intention);if(!items.length){l.innerHTML='';em.style.display='block';return;}em.style.display='none';l.innerHTML=items.map(c=>'<div class="vr" style="border-left-color:var(--red);"><div class="vt">'+c.intention+'</div><div class="vm">'+c.date+'</div></div>').join('');}
+function openCal(){document.getElementById('mo-cal').classList.add('op');}
+async function svCal(){const ti=document.getElementById('cati').value.trim();const da=document.getElementById('cada').value;const ty=document.getElementById('caty').value;if(!ti||!da){alert('Please fill in item and date.');return;}await sb('P','daily5',{date:da,intention:'['+ty+'] '+ti,swings:[]});clM('mo-cal');await ldCal();}
+function rnSn(){snds=JSON.parse(localStorage.getItem('wtd_sn')||'[]');const l=document.getElementById('snli');if(!snds.length){l.innerHTML='';return;}l.innerHTML=snds.map((s,i)=>'<div class="snr"><div class="sni">&#127925;</div><div style="flex:1;"><div class="snn">'+s.name+'</div><a href="'+s.url+'" target="_blank" class="snl">'+s.url.substring(0,45)+(s.url.length>45?'...':'')+'</a></div><button class="spb" onclick="dlSn('+i+')">&#10005;</button></div>').join('');}
+function addSn(){const u=document.getElementById('sni').value.trim();const n=document.getElementById('snn2').value.trim();if(!u)return;snds.push({url:u,name:n||'Track'});localStorage.setItem('wtd_sn',JSON.stringify(snds));document.getElementById('sni').value='';document.getElementById('snn2').value='';rnSn();}
+function dlSn(i){snds.splice(i,1);localStorage.setItem('wtd_sn',JSON.stringify(snds));rnSn();}
+function bWk(){const ws=['SUN','MON','TUE','WED','THU','FRI','SAT'];const td=new Date();const st=new Date(td);st.setDate(td.getDate()-td.getDay());document.getElementById('wstrip').innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(st);d.setDate(st.getDate()+i);const is=d.toDateString()===td.toDateString();return '<div class="wd '+(is?'td':'')+'"><div class="wdn">'+ws[i]+'</div><div class="wdm">'+d.getDate()+'</div><div class="wdd"></div></div>';}).join('');}
+document.getElementById('bdu')?.addEventListener('change',function(){const l=document.getElementById('bdl');Array.from(this.files).forEach(f=>{const d=document.createElement('div');d.className='lr';d.innerHTML='<span>&#128196; '+f.name+'</span><span style="font-size:11px;color:var(--tm);">'+(f.size/1024).toFixed(0)+'KB</span>';l.appendChild(d);});});
+document.addEventListener('DOMContentLoaded',()=>{rnAg();bWk();rnD5();rnSn();if(aK)console.log('API key loaded');});
+</script>
+</body>
+</html>
