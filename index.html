@@ -29,7 +29,7 @@ body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow
 .n:hover{background:rgba(255,255,255,.07);color:white;}
 .n.on{background:rgba(255,255,255,.1);color:white;border-left-color:var(--gd);}
 .ni{font-size:13px;width:18px;text-align:center;flex-shrink:0;}
-.sbf{margin-top:auto;padding:13px;color:rgba(255,255,255,.25);font-size:10px;font-family:'Cormorant Garamond',serif;font-style:italic;line-height:1.6;border-top:1px solid rgba(255,255,255,.07);}
+.sbf{margin-top:auto;padding:13px;color:rgba(255,255,255,.72);font-size:11px;font-family:'Jost',sans-serif;font-style:normal;font-weight:500;line-height:1.6;border-top:1px solid rgba(255,255,255,.15);}
 #ct{flex:1;overflow-y:auto;}
 .rm{display:none;min-height:100%;}
 .rm.on{display:block;}
@@ -259,7 +259,7 @@ body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow
 </div>
 <div id="wrap">
 <nav id="sb">
-  <div class="sbl"><img id="logo" src="" alt="WTD"><button onclick="openApi()">⚙</button></div>
+  <div class="sbl"><img id="logo" src="" alt="WTD"></div>
   <div class="ss">Home</div>
   <div class="n on" onclick="go('prayer')"><span class="ni">🙏</span><span>Prayer Room</span></div>
   <div class="n" onclick="go('entrance')"><span class="ni">🏛</span><span>The Entrance</span></div>
@@ -287,7 +287,7 @@ body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow
   <div class="ss">Assets</div>
   <div class="n" onclick="go('brandvault')"><span class="ni">🔒</span><span>Brand Vault</span></div>
   <div class="n" onclick="go('workshop')"><span class="ni">🔧</span><span>Workshop</span></div>
-  <div class="sbf">"Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."<br><br>Matthew 5:16</div>
+  <div class="sbf" style="color:rgba(255,255,255,.7);font-size:11px;font-style:normal;font-weight:500;">"Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."<br><br>Matthew 5:16</div>
 </nav>
 <div id="ct">
 <!-- PRAYER ROOM -->
@@ -317,7 +317,17 @@ body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow
 </div>
 <div class="ed">
 <div class="edc"><div class="edl"><span style="color:var(--red);">&#9679;</span> Outstanding</div><div id="outst" style="font-size:13px;color:var(--tm);font-style:italic;">Nothing outstanding. You are ahead of it.</div></div>
-<div class="edc"><div class="edl">&#128197; Coming This Week</div><div class="ws" id="wstrip"></div></div>
+<div class="edc">
+<div class="edl" style="display:flex;align-items:center;justify-content:space-between;">
+<span>&#128197; Schedule</span>
+<div style="display:flex;gap:4px;">
+<button class="cal-view-btn on" onclick="setCalView('day',this)" style="font-size:10px;padding:2px 7px;border-radius:8px;border:1px solid var(--pm);background:var(--pu);color:white;cursor:pointer;">Day</button>
+<button class="cal-view-btn" onclick="setCalView('week',this)" style="font-size:10px;padding:2px 7px;border-radius:8px;border:1px solid var(--pm);background:white;color:var(--pu);cursor:pointer;">Week</button>
+<button class="cal-view-btn" onclick="setCalView('month',this)" style="font-size:10px;padding:2px 7px;border-radius:8px;border:1px solid var(--pm);background:white;color:var(--pu);cursor:pointer;">Month</button>
+</div>
+</div>
+<div id="ent-cal-view" style="margin-top:8px;"></div>
+</div>
 </div>
 <div class="qa">
 <div class="qab" onclick="go('spark')"><div class="qai">&#9889;</div><div class="qal">New Spark</div></div>
@@ -330,17 +340,17 @@ body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow
 <div id="rm-daily5" class="rm">
 <div class="rh re"><div class="ew">Daily 5</div><h1>Set your intention. Swing with purpose.</h1><p>Five deliberate choices. Set tonight. Ready tomorrow.</p></div>
 <div class="rb">
-<div class="cd"><h3>Your Running List</h3><p style="margin-bottom:11px;">Capture everything in play. No order, no pressure.</p>
-<div style="display:flex;gap:8px;margin-bottom:11px;"><input type="text" class="fi" id="li" placeholder="Add something..." style="flex:1;" onkeydown="if(event.key==='Enter')addLI()"><button class="btn bpu" onclick="addLI()">Add</button></div>
-<div id="sli"></div></div>
+<div class="cd"><h3>Tomorrow's Intention</h3><p style="margin-bottom:8px;color:var(--tm);font-size:13px;">One sentence. What is tomorrow for?</p>
+<textarea class="ft" id="inti" placeholder="Tomorrow I am focused on..." rows="3"></textarea>
+<button class="btn bpu" style="margin-top:8px;" onclick="saveInt()">Save Intention</button></div>
 <div class="cd">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;"><h3 style="margin:0;">Tomorrow's Five Swings</h3><button class="btn bre bsm" onclick="sugSw()">&#10022; Suggest</button></div>
 <div id="swli"></div>
 <button class="btn bol bsm" onclick="addSw()" style="margin-top:5px;">+ Add swing</button>
 <div style="margin-top:13px;"><button class="btn bpu" onclick="saveSw()">Save Tomorrow's Five</button></div></div>
-<div class="cd"><h3>Tomorrow's Intention</h3><p style="margin-bottom:8px;color:var(--tm);font-size:13px;">One sentence. What is tomorrow for?</p>
-<textarea class="ft" id="inti" placeholder="Tomorrow I am focused on..." rows="3"></textarea>
-<button class="btn bpu" style="margin-top:8px;" onclick="saveInt()">Save Intention</button></div>
+<div class="cd"><h3>Your Running List</h3><p style="margin-bottom:11px;">Capture everything in play. No order, no pressure.</p>
+<div style="display:flex;gap:8px;margin-bottom:11px;"><input type="text" class="fi" id="li" placeholder="Add something..." style="flex:1;" onkeydown="if(event.key==='Enter')addLI()"><button class="btn bpu" onclick="addLI()">Add</button></div>
+<div id="sli"></div></div>
 </div></div>
 
 <!-- VISION -->
@@ -567,15 +577,47 @@ body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow
 
 <!-- WORKSHOP -->
 <div id="rm-workshop" class="rm">
-<div class="rh ch"><div class="ew">Build</div><h1>Workshop</h1><p>The build and experiment space.</p></div>
-<div class="rb"><div class="cd"><h3>What are you building?</h3>
+<div class="rh ch"><div class="ew">Build</div><h1>The Workshop</h1><p>Your tools and frameworks. Work in progress. No deadline, no pressure.</p></div>
+<div class="rb">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:20px;">
+<div class="cd" style="border-top:3px solid var(--pu);">
+<div style="font-size:26px;margin-bottom:10px;">&#127760;</div>
+<h3>WIN Map&#8482;</h3>
+<p style="margin-bottom:12px;">Winning Inspirational Narrative. A map of who you are, what you stand for, and where you are going.</p>
+<span style="display:inline-block;border:1px solid var(--pm);color:var(--tm);border-radius:12px;padding:3px 10px;font-size:11px;letter-spacing:1px;">IN PROGRESS</span>
+</div>
+<div class="cd" style="border-top:3px solid var(--red);">
+<div style="font-size:26px;margin-bottom:10px;">&#128293;</div>
+<h3>Sparkleometer&#8482;</h3>
+<p style="margin-bottom:12px;">Measuring and mapping the sparkle in any room, organisation, or individual.</p>
+<span style="display:inline-block;border:1px solid var(--pm);color:var(--tm);border-radius:12px;padding:3px 10px;font-size:11px;letter-spacing:1px;">IN PROGRESS</span>
+</div>
+<div class="cd" style="border-top:3px solid var(--gd);">
+<div style="font-size:26px;margin-bottom:10px;">&#128214;</div>
+<h3>SIT Cards&#8482;</h3>
+<p style="margin-bottom:12px;">Sacred Intentional Timeout. Cards for the moments that need stillness before action.</p>
+<span style="display:inline-block;border:1px solid var(--pm);color:var(--tm);border-radius:12px;padding:3px 10px;font-size:11px;letter-spacing:1px;">IN PROGRESS</span>
+</div>
+<div class="cd" style="border-top:3px solid var(--pu);">
+<div style="font-size:26px;margin-bottom:10px;">&#127919;</div>
+<h3>Positioning Studio</h3>
+<p style="margin-bottom:12px;">Four anchors. Five journey positions. Direct exercises for the grown woman.</p>
+<span style="display:inline-block;border:1px solid var(--pm);color:var(--tm);border-radius:12px;padding:3px 10px;font-size:11px;letter-spacing:1px;">IN PROGRESS</span>
+</div>
+<div class="cd" style="border-top:3px dashed var(--gr);background:var(--grl);">
+<div style="font-size:26px;margin-bottom:10px;">+</div>
+<h3>New Tool</h3>
+<p style="margin-bottom:12px;">Start something new. Give it a name and begin.</p>
+<button class="btn bpu bsm">START HERE</button>
+</div>
+</div>
+<div class="cd"><h3>Workshop Assistant</h3><p style="margin-bottom:10px;color:var(--tm);font-size:13px;">Build, experiment, prototype. Describe what you are working on.</p>
 <div class="cw"><div class="cm" id="wsms"></div><div class="cr"><input id="wsin" placeholder="Describe what you want to build..." onkeydown="if(event.key==='Enter')sch('ws')"><button id="wsbt" onclick="sch('ws')">Send</button></div></div>
-</div></div></div>
+</div></div></div></div></div>
 
 </div></div>
 
 <!-- MODALS -->
-<div class="ov" id="mo-api"><div class="mo"><h2>API Key</h2><p class="msub">Your Anthropic API key — stored in this browser only.</p><div class="fg"><label class="fl">API Key</label><input type="password" class="fi" id="apii" placeholder="sk-ant-..."></div><div class="mft"><button class="btn bol" onclick="clM('mo-api')">Cancel</button><button class="btn bpu" onclick="svKey()">Save</button></div></div></div>
 <div class="ov" id="mo-dream"><div class="mo"><h2>New Dream</h2><p class="msub">Write the vision and make it plain.</p><div class="fg"><label class="fl">The Dream or Goal</label><input type="text" class="fi" id="dti" placeholder="State it plainly and boldly..."></div><div class="fg"><label class="fl">Why It Matters</label><textarea class="ft" id="dwh" placeholder="Why does this matter to you?" rows="3"></textarea></div><div class="fg"><label class="fl">Dream Image</label><input type="file" id="dim" accept="image/*" style="font-size:13px;"></div><div class="fg"><label class="fl">The Seven Steps</label><div id="dste"></div></div><div class="mft"><button class="btn bol" onclick="clM('mo-dream')">Cancel</button><button class="btn bgd" onclick="svDream()">Save Dream</button></div></div></div>
 <div class="ov" id="mo-dd"><div class="mo" style="max-width:580px;"><div id="ddin"></div><div class="mft"><button class="btn bol" onclick="clM('mo-dd')">Close</button><button class="btn bol" onclick="prDream()">Print</button><button class="btn bgd" id="acbt" onclick="mkAch()">&#10003; Mark Achieved</button></div></div></div>
 <div class="ov" id="mo-vox"><div class="mo"><h2>Add to Vox</h2><div class="fg"><label class="fl">Title</label><input type="text" class="fi" id="vti" placeholder="What is this piece about?"></div><div class="fg"><label class="fl">Content or Idea</label><textarea class="ft" id="vco" placeholder="Paste content or describe the idea..." rows="5"></textarea></div><div class="fg"><label class="fl">Source</label><input type="text" class="fi" id="vso" placeholder="Iris, Spark Room, Team..."></div><div class="mft"><button class="btn bol" onclick="clM('mo-vox')">Cancel</button><button class="btn bpu" onclick="svVox()">Add to Vox</button></div></div></div>
@@ -585,7 +627,7 @@ body{font-family:'Jost',sans-serif;background:var(--ow);color:var(--tx);overflow
 
 <script>
 const SBU='https://tyqaqfsieolixdtfgcbb.supabase.co',SBK='sb_publishable_zGmRc72IrjdtJURlIU6mMg_qNxibtpA';
-let aK=localStorage.getItem('wtd_k')||'';
+
 let cP='g',pH=[],iH=[],iBul='',cH=[],shH=[],caH=[],wsH=[],curAg=null,agH={};
 let sw=[],sli=[],dr=[],vx=[],sp=[],cal=[],wins=[],ct=[],th=[],curD=null,cpf='all',csf='all',cwf='all';
 let snds=JSON.parse(localStorage.getItem('wtd_sn')||'[]');
@@ -633,15 +675,12 @@ if(r==='content')ldCt();if(r==='entrance')bWk();if(r==='sound')rnSn();if(r==='se
 if(r==='c'&&cH.length===0)aM('cms','as','What is on your mind today?');
 if(r==='shina'&&shH.length===0)aM('shms','as','Welcome. What is on your heart today?');
 }
-function openApi(){document.getElementById('apii').value=aK;document.getElementById('mo-api').classList.add('op');}
 function clM(id){document.getElementById(id).classList.remove('op');}
-function svKey(){aK=document.getElementById('apii').value.trim();localStorage.setItem('wtd_k',aK);clM('mo-api');}
 async function ai(sys,msgs){
-if(!aK){alert('Please set your API key \u2014 tap \u2699 in the sidebar.');return null;}
-try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':aK,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2000,system:sys,messages:msgs})});
+try{const r=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2000,system:sys,messages:msgs})});
 if(!r.ok){const e=await r.json();alert('API Error: '+(e.error?.message||'Unknown'));return null;}
 const d=await r.json();return d.content?.[0]?.text||'';}
-catch(e){alert('Connection error. Check your API key.');return null;}}
+catch(e){alert('Connection error.');return null;}}
 function aM(cid,role,txt){const c=document.getElementById(cid);if(!c)return;const d=document.createElement('div');d.className='ms '+role;d.innerHTML='<div class="bbl">'+txt.replace(/\n/g,'<br>')+'</div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
 function aPM(role,txt){const c=document.getElementById('pm');const d=document.createElement('div');d.className='pmg '+role;d.innerHTML='<div class="pbb">'+txt.replace(/\n/g,'<br>')+'</div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
 function ldg(cid,bid,on){const b=document.getElementById(bid);if(b)b.disabled=on;
@@ -803,9 +842,48 @@ async function svCal(){const ti=document.getElementById('cati').value.trim();con
 function rnSn(){snds=JSON.parse(localStorage.getItem('wtd_sn')||'[]');const l=document.getElementById('snli');if(!snds.length){l.innerHTML='';return;}l.innerHTML=snds.map((s,i)=>'<div class="snr"><div class="sni">&#127925;</div><div style="flex:1;"><div class="snn">'+s.name+'</div><a href="'+s.url+'" target="_blank" class="snl">'+s.url.substring(0,45)+(s.url.length>45?'...':'')+'</a></div><button class="spb" onclick="dlSn('+i+')">&#10005;</button></div>').join('');}
 function addSn(){const u=document.getElementById('sni').value.trim();const n=document.getElementById('snn2').value.trim();if(!u)return;snds.push({url:u,name:n||'Track'});localStorage.setItem('wtd_sn',JSON.stringify(snds));document.getElementById('sni').value='';document.getElementById('snn2').value='';rnSn();}
 function dlSn(i){snds.splice(i,1);localStorage.setItem('wtd_sn',JSON.stringify(snds));rnSn();}
-function bWk(){const ws=['SUN','MON','TUE','WED','THU','FRI','SAT'];const td=new Date();const st=new Date(td);st.setDate(td.getDate()-td.getDay());document.getElementById('wstrip').innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(st);d.setDate(st.getDate()+i);const is=d.toDateString()===td.toDateString();return '<div class="wd '+(is?'td':'')+'"><div class="wdn">'+ws[i]+'</div><div class="wdm">'+d.getDate()+'</div><div class="wdd"></div></div>';}).join('');}
+function bWk(){
+const el=document.getElementById('ent-cal-view');
+if(!el)return;
+const view=window._calView||'day';
+const td=new Date();
+if(view==='day'){
+const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+el.innerHTML='<div style="text-align:center;padding:8px 0;"><div style="font-size:28px;font-weight:600;color:var(--pu);">'+td.getDate()+'</div><div style="font-size:11px;color:var(--tm);">'+days[td.getDay()]+' '+months[td.getMonth()]+' '+td.getFullYear()+'</div><div style="margin-top:6px;font-size:11px;color:var(--red);">&#8226;</div></div>';
+}else if(view==='week'){
+const ws=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const st=new Date(td);st.setDate(td.getDate()-td.getDay());
+el.innerHTML='<div style="display:flex;justify-content:space-between;">'+Array.from({length:7},(_,i)=>{const d=new Date(st);d.setDate(st.getDate()+i);const is=d.toDateString()===td.toDateString();return '<div style="text-align:center;flex:1;"><div style="font-size:9px;color:var(--tm);">'+ws[i]+'</div><div style="font-size:13px;font-weight:600;color:'+(is?'white':'var(--pu)')  +';background:'+(is?'var(--pu)':'transparent')+';border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;margin:3px auto;">'+d.getDate()+'</div><div style="width:4px;height:4px;border-radius:50%;background:'+(is?'var(--red)':'var(--gr)')+';margin:0 auto;"></div></div>';}).join('')+'</div>';
+}else{
+const yr=td.getFullYear(),mo=td.getMonth();
+const first=new Date(yr,mo,1).getDay();
+const days=new Date(yr,mo+1,0).getDate();
+const mns=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let html='<div style="font-size:11px;font-weight:600;color:var(--pu);text-align:center;margin-bottom:5px;">'+mns[mo]+' '+yr+'</div>';
+html+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;">';
+['S','M','T','W','T','F','S'].forEach(d=>{html+='<div style="font-size:9px;color:var(--tm);text-align:center;">'+d+'</div>';});
+for(let i=0;i<first;i++)html+='<div></div>';
+for(let d=1;d<=days;d++){const is=d===td.getDate();html+='<div style="font-size:10px;text-align:center;padding:1px;background:'+(is?'var(--pu)':'transparent')+';color:'+(is?'white':'var(--tx)')+';border-radius:3px;">'+d+'</div>';}
+html+='</div>';
+el.innerHTML=html;
+}}
+function setCalView(v,btn){
+window._calView=v;
+document.querySelectorAll('.cal-view-btn').forEach(b=>{b.style.background='white';b.style.color='var(--pu)';});
+btn.style.background='var(--pu)';btn.style.color='white';
+bWk();}
 document.getElementById('bdu')?.addEventListener('change',function(){const l=document.getElementById('bdl');Array.from(this.files).forEach(f=>{const d=document.createElement('div');d.className='lr';d.innerHTML='<span>&#128196; '+f.name+'</span><span style="font-size:11px;color:var(--tm);">'+(f.size/1024).toFixed(0)+'KB</span>';l.appendChild(d);});});
-document.addEventListener('DOMContentLoaded',()=>{rnAg();bWk();rnD5();rnSn();if(aK)console.log('API key loaded');});
+document.addEventListener('DOMContentLoaded',async()=>{
+rnAg();bWk();rnSn();
+// Load daily5 swings for the bar on startup
+const td=new Date().toISOString().split('T')[0];
+const data=await sb('G','daily5');
+const e=data.find(d=>d.date===td);
+if(e){sw=e.swings||[];document.getElementById('inti')&&(document.getElementById('inti').value=e.intention||'');}
+else{sw=Array(5).fill(null).map(()=>({text:'',done:false}));}
+rnD5();
+});
 </script>
 </body>
 </html>
