@@ -2599,7 +2599,8 @@ async function api(path,opt){
   opt.headers=Object.assign({apikey:cfg.key,Authorization:'Bearer '+t,'Content-Type':'application/json'},opt.headers||{});
   var r=await fetch(cfg.url+'/rest/v1/'+path,opt);
   if(!r.ok) throw new Error('Supabase '+r.status+': '+(await r.text()));
-  return r.status===204?null:r.json();
+  var txt=await r.text();
+return txt?JSON.parse(txt):null;
 }
 async function push(){
   var s=JSON.stringify(snap()),now=new Date().toISOString();
