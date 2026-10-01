@@ -2576,5 +2576,124 @@ go=function(r){
 };
 
 </script>
+  <script>
+(function(){
+var K='wtd-sb', cfg=JSON.parse(localStorage.getItem(K)||'{}'), ready=false, busy=false, lastPushed='';
+function save(){localStorage.setItem(K,JSON.stringify(cfg));}
+function status(t){var b=document.getElementById('sync-btn');if(b)b.textContent='\u21C5 '+t;var m=document.getElementById('sync-msg');if(m)m.textContent=t;}
+function snap(){return {contentItems:contentItems,winItems:winItems,rtPins:rtPins,rtConnections:rtConnections,vaultDocs:vaultDocs,seqLibrary:seqLibrary,personalCalItems:personalCalItems,sparks:sparks,runs:runs,wsData:wsData,calTasks:calTasks,camTasks:camTasks};}
+
+async function auth(body,grant){
+  var r=await fetch(cfg.url+'/auth/v1/token?grant_type='+grant,{method:'POST',headers:{apikey:cfg.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  var d=await r.json();
+  if(!r.ok) throw new Error(d.error_description||d.msg||'Sign in failed');
+  cfg.access=d.access_token;cfg.refresh=d.refresh_token;cfg.uid=d.user.id;cfg.exp=Date.now()+d.expires_in*1000-60000;save();
+}
+async function token(){
+  if(!cfg.refresh) throw new Error('Not signed in');
+  if(Date.now()>cfg.exp) await auth({refresh_token:cfg.refresh},'refresh_token');
+  return cfg.access;
+}
+async function api(path,opt){
+  var t=await token();opt=opt||{};
+  opt.headers=Object.assign({apikey:cfg.key,Authorization:'Bearer '+t,'Content-Type':'application/json'},opt.headers||{});
+  var r=await fetch(cfg.url+'/rest/v1/'+path,opt);
+  if(!r.ok) throw new Error('Supabase '+r.status+': '+(await r.text()));
+  return r.status===204?null:r.json();
+}
+async function push(){
+  var s=JSON.stringify(snap()),now=new Date().toISOString();
+  await api('studio_state?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({user_id:cfg.uid,data:JSON.parse(s),updated_at:now})});
+  lastPushed=s;cfg.syncedAt=now;save();
+}
+function apply(d){
+  contentItems=d.contentItems||[];winItems=d.winItems||[];rtPins=d.rtPins||[];rtConnections=d.rtConnections||[];
+  vaultDocs=d.vaultDocs||[];seqLibrary=d.seqLibrary||[];personalCalItems=d.personalCalItems||[];
+  sparks=d.sparks||[];runs=d.runs||[];wsData=d.wsData||{};calTasks=d.calTasks||[];camTasks=d.camTasks||[];
+  localStorage.setItem('wtd-content',JSON.stringify(contentItems));
+  localStorage.setItem('wtd-wins',JSON.stringify(winItems));
+  localStorage.setItem('wtd-vault-docs',JSON.stringify(vaultDocs));
+  localStorage.setItem('wtd-seq-library',JSON.stringify(seqLibrary));
+  localStorage.setItem('wtd-personal-cal',JSON.stringify(personalCalItems));
+  localStorage.setItem('wtd-rt',JSON.stringify({pins:rtPins,connections:rtConnections}));
+  [renderEntrance,renderCal,renderSparks,renderContent,renderWins,rtRender,renderSeqLibrary,renderVaultDocs].forEach(function(f){try{f();}catch(e){}});
+  try{if(runs.length)renderRuns();}catch(e){}
+}
+async function sync(){
+  if(!cfg.refresh||busy) return;
+  busy=true;
+  try{
+    status('Syncing...');
+    if(ready&&JSON.stringify(snap())!==lastPushed){await push();}
+    else{
+      var rows=await api('studio_state?select=data,updated_at&user_id=eq.'+cfg.uid);
+      if(!rows.length){await push();}
+      else if(!cfg.syncedAt||new Date(rows[0].updated_at)>new Date(cfg.syncedAt)){apply(rows[0].data);cfg.syncedAt=rows[0].updated_at;save();lastPushed=JSON.stringify(snap());}
+      else{lastPushed=JSON.stringify(snap());}
+    }
+    ready=true;status('Synced');
+  }catch(e){status('Sync error: '+e.message);console.error(e);}
+  busy=false;
+}
+
+// Save automatically 5 seconds after any change
+setInterval(async function(){
+  if(!ready||busy||!cfg.refresh) return;
+  if(JSON.stringify(snap())===lastPushed) return;
+  busy=true;
+  try{status('Saving...');await push();status('Synced');}catch(e){status('Sync error: '+e.message);}
+  busy=false;
+},5000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)sync();});
+
+// Settings panel
+function q(v){return String(v||'').replace(/"/g,'&quot;');}
+function openPanel(){
+  var o=document.createElement('div');o.id='sync-panel';
+  o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;';
+  var f='width:100%;font-size:17px;font-family:Jost,sans-serif;padding:12px 14px;border:1px solid #e0dbd5;border-radius:8px;margin-bottom:12px;';
+  var l='display:block;font-size:16px;font-weight:600;color:#40003f;margin-bottom:5px;';
+  o.innerHTML='<div style="background:#fff;border-radius:12px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;padding:28px;">'
+   +'<div style="font-family:Cormorant Garamond,serif;font-size:30px;font-weight:600;color:#40003f;margin-bottom:6px;">Sync across devices</div>'
+   +'<p style="font-size:17px;line-height:1.7;color:#4a3f3a;margin-bottom:16px;">Sign in with the same Supabase account on every device. Your API key stays on each device and is not synced.</p>'
+   +'<label style="'+l+'">Supabase project URL</label><input id="sb-url" style="'+f+'" placeholder="https://xxxx.supabase.co" value="'+q(cfg.url)+'">'
+   +'<label style="'+l+'">Anon (public) key</label><input id="sb-key" style="'+f+'" value="'+q(cfg.key)+'">'
+   +'<label style="'+l+'">Email</label><input id="sb-email" type="email" style="'+f+'" value="'+q(cfg.email)+'">'
+   +'<label style="'+l+'">Password</label><input id="sb-pass" type="password" style="'+f+'">'
+   +'<div id="sync-msg" style="font-size:17px;color:#2d8b4a;font-weight:600;margin-bottom:14px;min-height:24px;">'+(cfg.refresh?'Signed in':'Not signed in')+'</div>'
+   +'<div style="display:flex;gap:10px;flex-wrap:wrap;">'
+   +'<button id="sb-in" style="padding:13px 22px;font-size:16px;font-weight:600;background:#40003f;color:#fff;border:none;border-radius:8px;cursor:pointer;">Sign in and sync</button>'
+   +'<button id="sb-now" style="padding:13px 22px;font-size:16px;background:#fff;color:#40003f;border:1px solid #40003f;border-radius:8px;cursor:pointer;">Sync now</button>'
+   +'<button id="sb-out" style="padding:13px 22px;font-size:16px;background:#fff;color:#6b6460;border:1px solid #e0dbd5;border-radius:8px;cursor:pointer;">Sign out</button>'
+   +'<button id="sb-x" style="padding:13px 22px;font-size:16px;background:#fff;color:#6b6460;border:1px solid #e0dbd5;border-radius:8px;cursor:pointer;">Close</button>'
+   +'</div></div>';
+  document.body.appendChild(o);
+  function close(){o.remove();}
+  o.onclick=function(e){if(e.target===o)close();};
+  document.getElementById('sb-x').onclick=close;
+  document.getElementById('sb-now').onclick=sync;
+  document.getElementById('sb-out').onclick=function(){cfg.access=cfg.refresh=cfg.uid=cfg.syncedAt='';ready=false;save();status('Signed out');};
+  document.getElementById('sb-in').onclick=async function(){
+    cfg.url=document.getElementById('sb-url').value.trim().replace(/\/+$/,'');
+    cfg.key=document.getElementById('sb-key').value.trim();
+    cfg.email=document.getElementById('sb-email').value.trim();
+    try{
+      status('Signing in...');
+      await auth({email:cfg.email,password:document.getElementById('sb-pass').value},'password');
+      ready=false;await sync();
+    }catch(e){status('Sign in failed: '+e.message);}
+  };
+}
+
+// Add the button to the session bar
+var bar=document.querySelector('.session-bar');
+if(bar){
+  var b=document.createElement('button');
+  b.id='sync-btn';b.className='sess-btn';b.textContent='\u21C5 Sync';b.onclick=openPanel;
+  bar.appendChild(b);
+}
+if(cfg.refresh) setTimeout(sync,1500);
+})();
+</script>
 </body>
 </html>
